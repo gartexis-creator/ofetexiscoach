@@ -1,28 +1,11 @@
 import Link from 'next/link';
+import Hero from './components/Hero';
 
 export default function InicioPage() {
   return (
     <div className="page-inicio">
       {/* Hero */}
-      <section className="hero">
-        <div className="hero-ornament"></div>
-        <span className="hero-eyebrow animate-fade-up">Mentoring de Alta Claridad</span>
-        <h1 className="animate-fade-up delay-1">
-          Soberanía<span className="hero-sub">Relacional</span>
-        </h1>
-        <p className="hero-desc animate-fade-up delay-2">
-          Acompaño a mujeres líderes atrapadas en el sobrepensamiento y la
-          autoexigencia a recuperar calma y claridad para habitar una vida más
-          fácil — sin depender de que su entorno cambie.
-        </p>
-        <Link className="btn-primario animate-fade-up delay-3" href="/contacto">
-          Inicia tu transformación
-        </Link>
-        <div className="hero-scroll-hint animate-fade-in delay-4">
-          <span>Descubre</span>
-          <div className="scroll-line"></div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Franja problema */}
       <section className="franja-problema">
