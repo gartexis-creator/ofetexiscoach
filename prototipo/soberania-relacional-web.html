@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soberanía Relacional | Mentoring de Alta Claridad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa-fondo: #FDF0F0;
+            --crema: #FAF5EE;
+            --mauve: #C9878A;
+            --mauve-claro: #E8BEC0;
+            --ciruela: #7D4E57;
+            --ciruela-oscuro: #5C3840;
+            --dorado: #D4AF8C;
+            --dorado-oscuro: #B8936A;
+            --nude: #3D2B2E;
+            --nude-light: #7A6165;
+            --blanco: #FFFFFF;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Jost', sans-serif; background: var(--rosa-fondo); color: var(--nude); line-height: 1.8; overflow-x: hidden; }
+        h1,h2,h3,h4,blockquote { font-family: 'Playfair Display', serif; }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes fadeUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+        @keyframes slideIn { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
+        @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+
+        .animate-fade-up { animation: fadeUp 0.9s ease forwards; }
+        .animate-fade-in { animation: fadeIn 1.2s ease forwards; }
+        .delay-1{animation-delay:.2s;opacity:0}
+        .delay-2{animation-delay:.4s;opacity:0}
+        .delay-3{animation-delay:.6s;opacity:0}
+        .delay-4{animation-delay:.8s;opacity:0}
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed; top:0; left:0; right:0; z-index:1000;
+            padding: 0 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            height: 72px;
+            background: rgba(253,240,240,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(201,135,138,0.12);
+            transition: all 0.3s ease;
+        }
+        nav.scrolled { box-shadow: 0 4px 24px rgba(61,43,46,0.08); }
+        .nav-logo { font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--ciruela); font-style:italic; cursor:pointer; }
+        .nav-links { display:flex; gap:0; list-style:none; }
+        .nav-links li { position:relative; }
+        .nav-links a {
+            display:block; padding:0 20px; height:72px; line-height:72px;
+            text-decoration:none; color:var(--nude-light);
+            font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; font-weight:500;
+            transition:color .3s;
+            cursor: pointer;
+        }
+        .nav-links a::after {
+            content:''; position:absolute; bottom:0; left:20px; right:20px; height:2px;
+            background:var(--mauve); transform:scaleX(0); transform-origin:center;
+            transition:transform .3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active { color:var(--ciruela); }
+        .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
+        .nav-cta {
+            display:inline-block; padding:10px 28px;
+            background:linear-gradient(135deg,var(--mauve),var(--ciruela));
+            color:white; text-decoration:none; border-radius:100px;
+            font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; font-weight:600;
+            transition:all .3s ease; cursor:pointer;
+        }
+        .nav-cta:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(125,78,87,.35); }
+
+        /* Mobile nav */
+        .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:10px; }
+        .hamburger span { width:24px; height:1.5px; background:var(--ciruela); transition:all .3s; display:block; }
+        .mobile-menu {
+            display:none; position:fixed; top:72px; left:0; right:0; bottom:0; z-index:999;
+            background:rgba(253,240,240,0.98); backdrop-filter:blur(20px);
+            flex-direction:column; align-items:center; justify-content:center; gap:10px;
+        }
+        .mobile-menu.open { display:flex; animation:fadeIn .3s ease; }
+        .mobile-menu a {
+            font-family:'Playfair Display',serif; font-size:2rem; font-style:italic;
+            color:var(--ciruela); text-decoration:none; padding:16px;
+            transition:color .3s; cursor:pointer;
+        }
+        .mobile-menu a:hover { color:var(--mauve); }
+
+        /* ===== PAGES ===== */
+        .page { display:none; min-height:100vh; }
+        .page.active { display:block; }
+
+        /* ===== HELPERS ===== */
+        .container { max-width:1100px; margin:auto; padding:0 40px; }
+        .container-sm { max-width:800px; margin:auto; padding:0 40px; }
+        .seccion-label {
+            font-size:0.7rem; letter-spacing:4px; text-transform:uppercase;
+            color:var(--mauve); font-weight:600; display:flex; align-items:center; gap:12px; margin-bottom:20px;
+        }
+        .seccion-label.center { justify-content:center; }
+        .seccion-label::after { content:''; flex:1; height:1px; background:var(--mauve-claro); }
+        .seccion-label.center::before { content:''; flex:1; height:1px; background:var(--mauve-claro); }
+        .titulo-seccion { font-size:clamp(2rem,4vw,3.2rem); font-weight:500; color:var(--ciruela-oscuro); line-height:1.2; margin-bottom:24px; }
+        .texto-cuerpo { font-size:1.05rem; color:var(--nude-light); font-weight:300; margin-bottom:18px; line-height:1.9; }
+        .btn-primario {
+            display:inline-block; padding:20px 60px;
+            background:linear-gradient(135deg,var(--mauve),var(--ciruela));
+            color:white; text-decoration:none; border-radius:100px;
+            font-size:0.78rem; letter-spacing:3px; text-transform:uppercase; font-weight:600;
+            box-shadow:0 8px 30px rgba(125,78,87,.3); transition:all .4s ease; cursor:pointer; border:none;
+        }
+        .btn-primario:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(125,78,87,.4); }
+        .btn-secundario {
+            display:inline-block; padding:20px 50px;
+            border:1.5px solid var(--mauve); color:var(--mauve);
+            text-decoration:none; border-radius:100px;
+            font-size:0.78rem; letter-spacing:3px; text-transform:uppercase; font-weight:600;
+            transition:all .4s ease; cursor:pointer; background:transparent;
+        }
+        .btn-secundario:hover { background:var(--mauve); color:white; transform:translateY(-4px); }
+        .reveal { opacity:0; transform:translateY(30px); transition:opacity .8s ease,transform .8s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+        .divider { width:60px; height:2px; background:linear-gradient(90deg,var(--mauve),var(--dorado)); border-radius:2px; }
+
+        /* ===========================
+           PAGE 1 — INICIO
+        =========================== */
+        #inicio { background:linear-gradient(160deg,#FDF0F0 0%,#FAF0EC 50%,#F5E8E8 100%); }
+
+        /* Hero */
+        .hero {
+            min-height:100vh; display:flex; flex-direction:column;
+            justify-content:center; align-items:center; text-align:center;
+            padding:140px 30px 100px; position:relative; overflow:hidden;
+        }
+        .hero::before {
+            content:''; position:absolute; width:600px; height:600px; border-radius:50%;
+            background:radial-gradient(circle,rgba(201,135,138,.12) 0%,transparent 70%);
+            top:-100px; right:-150px; animation:float 8s ease-in-out infinite;
+        }
+        .hero::after {
+            content:''; position:absolute; width:400px; height:400px; border-radius:50%;
+            background:radial-gradient(circle,rgba(212,175,140,.1) 0%,transparent 70%);
+            bottom:-80px; left:-100px; animation:float 10s ease-in-out infinite reverse;
+        }
+        .hero-ornament {
+            position:absolute; width:320px; height:320px;
+            border:1px solid rgba(201,135,138,.18); border-radius:50%;
+            top:50%; left:50%; transform:translate(-50%,-50%);
+            animation:rotateSlow 30s linear infinite;
+        }
+        .hero-ornament::before {
+            content:''; position:absolute; width:260px; height:260px;
+            border:1px dashed rgba(201,135,138,.1); border-radius:50%;
+            top:50%; left:50%; transform:translate(-50%,-50%);
+        }
+        .hero-eyebrow { font-size:.72rem; letter-spacing:4px; text-transform:uppercase; color:var(--mauve); font-weight:600; position:relative; z-index:2; }
+        .hero-eyebrow::before,.hero-eyebrow::after { content:'— '; opacity:.5; }
+        .hero-eyebrow::after { content:' —'; }
+        .hero h1 { font-size:clamp(3rem,7vw,6rem); font-weight:400; font-style:italic; color:var(--ciruela-oscuro); line-height:1.1; margin:20px 0 8px; position:relative; z-index:2; }
+        .hero-sub { display:block; font-family:'Jost',sans-serif; font-size:clamp(.9rem,1.8vw,1.2rem); font-weight:300; color:var(--nude-light); letter-spacing:6px; text-transform:uppercase; margin-bottom:28px; }
+        .hero-desc { font-size:clamp(1rem,1.5vw,1.2rem); max-width:680px; font-weight:300; color:var(--nude-light); position:relative; z-index:2; margin:0 auto 50px; line-height:1.9; }
+        .hero-scroll-hint { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); font-size:.65rem; letter-spacing:3px; text-transform:uppercase; color:var(--mauve-claro); display:flex; flex-direction:column; align-items:center; gap:10px; z-index:2; }
+        .scroll-line { width:1px; height:50px; background:linear-gradient(to bottom,var(--mauve-claro),transparent); animation:float 2s ease-in-out infinite; }
+
+        /* Franja problema */
+        .franja-problema { padding:100px 0; background:var(--blanco); position:relative; }
+        .franja-problema::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--mauve-claro),var(--dorado),var(--mauve-claro),transparent); }
+        .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; }
+        .quote-elegante { border-left:2px solid var(--mauve); padding:30px 40px; background:linear-gradient(135deg,rgba(201,135,138,.06),rgba(212,175,140,.08)); border-radius:0 16px 16px 0; }
+        .quote-elegante blockquote { font-size:1.4rem; font-style:italic; color:var(--ciruela); line-height:1.55; font-weight:400; }
+        .quote-elegante cite { display:block; margin-top:18px; font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--mauve); font-style:normal; }
+        .lista-dolores { list-style:none; margin-top:28px; }
+        .lista-dolores li { padding:14px 0; border-bottom:1px solid rgba(201,135,138,.12); font-size:1rem; color:var(--nude-light); display:flex; align-items:flex-start; gap:14px; }
+        .lista-dolores li::before { content:'◆'; color:var(--mauve); font-size:.6rem; margin-top:8px; flex-shrink:0; }
+
+        /* Banner promesa */
+        .banner-promesa {
+            background:linear-gradient(135deg,var(--ciruela-oscuro) 0%,#3D2030 50%,var(--nude) 100%);
+            padding:120px 40px; text-align:center; position:relative; overflow:hidden;
+        }
+        .banner-promesa::before { content:''; position:absolute; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle,rgba(201,135,138,.12) 0%,transparent 70%); top:-200px; left:-200px; }
+        .banner-promesa::after { content:''; position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(212,175,140,.1) 0%,transparent 70%); bottom:-150px; right:-100px; }
+        .banner-inner { position:relative; z-index:2; }
+        .badge-dorado { display:inline-block; border:1px solid rgba(212,175,140,.5); padding:8px 28px; font-size:.68rem; letter-spacing:4px; text-transform:uppercase; color:var(--dorado); border-radius:100px; margin-bottom:36px; }
+        .banner-promesa h2 { font-size:clamp(2.5rem,5vw,4.2rem); color:white; font-weight:400; font-style:italic; line-height:1.15; margin-bottom:24px; }
+        .banner-promesa p { font-size:1.1rem; color:rgba(253,240,240,.75); max-width:680px; margin:0 auto 45px; font-weight:300; line-height:1.9; }
+        .stat-grid { display:grid; grid-template-columns:repeat(3,1fr); max-width:700px; margin:60px auto 0; border:1px solid rgba(212,175,140,.2); border-radius:16px; overflow:hidden; }
+        .stat-item { padding:36px 24px; border-right:1px solid rgba(212,175,140,.15); text-align:center; }
+        .stat-item:last-child { border-right:none; }
+        .stat-num { font-family:'Playfair Display',serif; font-size:3rem; color:var(--dorado); font-style:italic; display:block; }
+        .stat-label { font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:rgba(253,240,240,.45); display:block; margin-top:8px; }
+
+        /* ===========================
+           PAGE 2 — SERVICIOS
+        =========================== */
+        #servicios { background:var(--crema); }
+        .servicios-hero { padding:160px 40px 80px; text-align:center; background:linear-gradient(160deg,var(--rosa-fondo),var(--crema)); }
+        .servicios-hero h2 { font-size:clamp(2.5rem,5vw,4rem); color:var(--ciruela-oscuro); font-style:italic; font-weight:400; margin-bottom:20px; }
+        .servicios-hero p { font-size:1.1rem; color:var(--nude-light); max-width:620px; margin:0 auto; font-weight:300; line-height:1.9; }
+
+        .programa-grid { display:grid; grid-template-columns:1fr 1fr; gap:30px; padding:60px 0 100px; }
+        .programa-card {
+            background:var(--blanco); border:1px solid rgba(201,135,138,.15);
+            border-radius:28px; overflow:hidden; transition:all .4s ease; position:relative;
+        }
+        .programa-card:hover { transform:translateY(-8px); box-shadow:0 20px 50px rgba(125,78,87,.12); }
+        .programa-card-top { padding:50px 45px 35px; position:relative; }
+        .programa-card-top::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--mauve),var(--dorado)); transform:scaleX(0); transform-origin:left; transition:transform .4s; }
+        .programa-card:hover .programa-card-top::before { transform:scaleX(1); }
+        .programa-badge { display:inline-block; font-size:.65rem; letter-spacing:3px; text-transform:uppercase; color:var(--mauve); border:1px solid var(--mauve-claro); padding:6px 18px; border-radius:100px; margin-bottom:20px; }
+        .programa-card h3 { font-size:1.9rem; color:var(--ciruela); margin-bottom:14px; font-weight:500; }
+        .programa-card p { font-size:.95rem; color:var(--nude-light); font-weight:300; line-height:1.8; margin-bottom:20px; }
+        .programa-lista { list-style:none; margin:16px 0; }
+        .programa-lista li { padding:10px 0; border-bottom:1px solid rgba(201,135,138,.1); font-size:.9rem; color:var(--nude-light); display:flex; gap:12px; align-items:flex-start; }
+        .programa-lista li::before { content:'✦'; color:var(--mauve); font-size:.7rem; margin-top:4px; flex-shrink:0; }
+        .programa-card-bottom { padding:30px 45px 45px; border-top:1px solid rgba(201,135,138,.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+        .programa-duracion { font-size:.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--dorado-oscuro); }
+        .programa-destacado { background:linear-gradient(160deg,var(--ciruela-oscuro),#3D2030); }
+        .programa-destacado .programa-card-top, .programa-destacado .programa-card-bottom { background:transparent; }
+        .programa-destacado h3, .programa-destacado p, .programa-destacado li { color:rgba(253,240,240,.85) !important; }
+        .programa-destacado h3 { color:white !important; }
+        .programa-destacado .programa-badge { color:var(--dorado); border-color:rgba(212,175,140,.4); }
+        .programa-destacado .programa-duracion { color:var(--dorado) !important; }
+        .programa-destacado .programa-lista li { border-color:rgba(255,255,255,.08) !important; }
+        .programa-destacado .programa-lista li::before { color:var(--dorado) !important; }
+        .programa-destacado .programa-card-bottom { border-color:rgba(255,255,255,.1) !important; }
+
+        .intensivo-full { grid-column:1/-1; }
+        .intensivo-full .programa-card-top { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:start; }
+        .intensivo-full .programa-lista { display:grid; grid-template-columns:1fr 1fr; }
+
+        /* ===========================
+           PAGE 3 — SOBRE MÍ
+        =========================== */
+        #sobre-mi { background:var(--blanco); }
+        .sobre-hero { padding:160px 40px 80px; }
+        .sobre-grid { display:grid; grid-template-columns:5fr 7fr; gap:90px; align-items:start; }
+        .sobre-foto-wrap { position:sticky; top:100px; }
+        .sobre-foto {
+            width:100%; aspect-ratio:3/4; border-radius:24px;
+            background:linear-gradient(160deg,var(--mauve-claro),var(--ciruela-oscuro));
+            position:relative; overflow:hidden;
+        }
+        .sobre-foto::before { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,transparent 40%,rgba(61,43,46,.5)); }
+        .sobre-foto-deco { position:absolute; width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+        .sobre-foto-deco svg { width:60%; opacity:.15; }
+        .sobre-foto-tag {
+            position:absolute; bottom:24px; left:24px; right:24px;
+            background:rgba(253,240,240,.92); backdrop-filter:blur(10px);
+            border-radius:14px; padding:18px 22px;
+        }
+        .sobre-foto-tag strong { font-family:'Playfair Display',serif; font-style:italic; color:var(--ciruela); font-size:1.1rem; display:block; }
+        .sobre-foto-tag span { font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--nude-light); }
+
+        .sobre-contenido { padding:30px 0 100px; }
+        .sobre-contenido h2 { font-size:clamp(2rem,3.5vw,3rem); color:var(--ciruela-oscuro); margin-bottom:6px; }
+        .sobre-contenido .sobre-titulo-sub { font-family:'Jost',sans-serif; font-size:.8rem; letter-spacing:3px; text-transform:uppercase; color:var(--mauve); font-weight:500; margin-bottom:36px; display:block; }
+        .sobre-contenido p { font-size:1rem; color:var(--nude-light); font-weight:300; line-height:1.95; margin-bottom:20px; }
+        .sobre-valores { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:40px 0; }
+        .valor-item { padding:24px; background:var(--rosa-fondo); border-radius:16px; border:1px solid rgba(201,135,138,.12); }
+        .valor-item h4 { font-size:1rem; color:var(--ciruela); margin-bottom:6px; }
+        .valor-item p { font-size:.85rem; color:var(--nude-light); font-weight:300; line-height:1.7; margin:0; }
+        .sobre-quote { border-left:2px solid var(--mauve); padding:28px 36px; background:linear-gradient(135deg,rgba(201,135,138,.05),rgba(212,175,140,.07)); border-radius:0 16px 16px 0; margin:40px 0; }
+        .sobre-quote blockquote { font-size:1.3rem; font-style:italic; color:var(--ciruela); line-height:1.55; }
+        .formacion-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px; }
+        .formacion-item { padding:20px 24px; border:1px solid rgba(201,135,138,.15); border-radius:14px; display:flex; gap:14px; align-items:flex-start; }
+        .formacion-icon { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--mauve-claro),var(--dorado)); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:.85rem; }
+        .formacion-text strong { display:block; font-size:.85rem; color:var(--ciruela); margin-bottom:2px; }
+        .formacion-text span { font-size:.78rem; color:var(--nude-light); font-weight:300; }
+
+        /* ===========================
+           PAGE 4 — TESTIMONIOS
+        =========================== */
+        #testimonios { background:var(--rosa-fondo); }
+        .test-hero { padding:160px 40px 80px; text-align:center; }
+        .test-hero h2 { font-size:clamp(2.5rem,5vw,4rem); color:var(--ciruela-oscuro); font-style:italic; font-weight:400; margin-bottom:20px; }
+        .test-hero p { font-size:1.1rem; color:var(--nude-light); max-width:600px; margin:0 auto; font-weight:300; line-height:1.9; }
+
+        .test-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; padding-bottom:40px; }
+        .test-card { background:var(--blanco); border-radius:24px; padding:45px 40px; border:1px solid rgba(201,135,138,.12); transition:all .4s; position:relative; overflow:hidden; }
+        .test-card::before { content:'"'; font-family:'Playfair Display',serif; font-size:7rem; color:rgba(201,135,138,.1); position:absolute; top:-10px; left:20px; line-height:1; pointer-events:none; }
+        .test-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(125,78,87,.1); }
+        .test-card blockquote { font-size:1.05rem; font-style:italic; color:var(--ciruela-oscuro); line-height:1.7; position:relative; z-index:1; }
+        .test-autora { margin-top:30px; display:flex; align-items:center; gap:14px; }
+        .test-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--mauve-claro),var(--dorado)); flex-shrink:0; }
+        .test-nombre strong { display:block; font-size:.88rem; color:var(--ciruela); }
+        .test-nombre span { font-size:.75rem; color:var(--nude-light); letter-spacing:.5px; }
+        .test-estrellas { color:var(--dorado); font-size:.9rem; margin-bottom:18px; }
+
+        .test-destacado { background:linear-gradient(135deg,var(--ciruela-oscuro),#3D2030); grid-column:1/-1; }
+        .test-destacado blockquote { color:rgba(253,240,240,.9) !important; font-size:1.25rem !important; }
+        .test-destacado .test-nombre strong { color:var(--mauve-claro) !important; }
+        .test-destacado .test-nombre span { color:rgba(253,240,240,.5) !important; }
+        .test-destacado::before { color:rgba(255,255,255,.06) !important; }
+        .test-destacado .test-estrellas { color:var(--dorado); }
+
+        .test-cta { text-align:center; padding:80px 40px 120px; }
+        .test-cta h3 { font-size:2.2rem; color:var(--ciruela-oscuro); font-style:italic; margin-bottom:14px; }
+        .test-cta p { font-size:1rem; color:var(--nude-light); max-width:520px; margin:0 auto 36px; font-weight:300; }
+
+        /* ===========================
+           PAGE 5 — CONTACTO
+        =========================== */
+        #contacto { background:var(--crema); }
+        .contacto-hero { padding:160px 40px 80px; text-align:center; }
+        .contacto-hero h2 { font-size:clamp(2.5rem,5vw,4rem); color:var(--ciruela-oscuro); font-style:italic; font-weight:400; margin-bottom:20px; }
+        .contacto-hero p { font-size:1.1rem; color:var(--nude-light); max-width:580px; margin:0 auto; font-weight:300; line-height:1.9; }
+
+        .contacto-grid { display:grid; grid-template-columns:5fr 7fr; gap:70px; padding-bottom:100px; align-items:start; }
+        .contacto-info { position:sticky; top:100px; }
+        .contacto-info h3 { font-size:1.7rem; color:var(--ciruela); margin-bottom:16px; }
+        .contacto-info p { font-size:.95rem; color:var(--nude-light); font-weight:300; line-height:1.8; margin-bottom:30px; }
+        .contacto-metodos { display:flex; flex-direction:column; gap:14px; margin-top:36px; }
+        .contacto-metodo { display:flex; gap:16px; align-items:center; padding:18px 22px; background:var(--blanco); border-radius:14px; border:1px solid rgba(201,135,138,.12); text-decoration:none; color:var(--nude); transition:all .3s; }
+        .contacto-metodo:hover { border-color:var(--mauve); transform:translateX(6px); }
+        .contacto-metodo-icon { width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--mauve),var(--ciruela)); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1rem; }
+        .contacto-metodo-text strong { display:block; font-size:.88rem; color:var(--ciruela); }
+        .contacto-metodo-text span { font-size:.8rem; color:var(--nude-light); font-weight:300; }
+
+        /* Formulario */
+        .contacto-form { background:var(--blanco); border-radius:28px; padding:55px 50px; border:1px solid rgba(201,135,138,.12); }
+        .form-titulo { font-size:1.6rem; color:var(--ciruela); margin-bottom:6px; }
+        .form-sub { font-size:.8rem; letter-spacing:2px; text-transform:uppercase; color:var(--mauve); margin-bottom:36px; display:block; }
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+        .form-group { margin-bottom:22px; }
+        .form-group label { display:block; font-size:.75rem; letter-spacing:2px; text-transform:uppercase; color:var(--nude-light); margin-bottom:10px; font-weight:500; }
+        .form-group input, .form-group textarea, .form-group select {
+            width:100%; padding:16px 20px;
+            border:1px solid rgba(201,135,138,.2); border-radius:12px;
+            font-family:'Jost',sans-serif; font-size:.95rem; color:var(--nude);
+            background:var(--rosa-fondo); outline:none; transition:all .3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:var(--mauve); background:white; box-shadow:0 0 0 3px rgba(201,135,138,.1); }
+        .form-group textarea { resize:vertical; min-height:130px; }
+        .form-group select { cursor:pointer; }
+        .form-check { display:flex; gap:12px; align-items:flex-start; margin-bottom:28px; }
+        .form-check input[type=checkbox] { width:18px; height:18px; accent-color:var(--mauve); flex-shrink:0; margin-top:2px; cursor:pointer; }
+        .form-check label { font-size:.85rem; color:var(--nude-light); font-weight:300; line-height:1.6; cursor:pointer; }
+        .form-success { display:none; text-align:center; padding:40px; }
+        .form-success .success-icon { font-size:3rem; margin-bottom:16px; }
+        .form-success h4 { font-size:1.5rem; color:var(--ciruela); margin-bottom:10px; }
+        .form-success p { font-size:.95rem; color:var(--nude-light); font-weight:300; }
+
+        /* ===========================
+           PAGE 6 — BLOG
+        =========================== */
+        #blog { background:var(--blanco); }
+        .blog-hero { padding:160px 40px 80px; text-align:center; }
+        .blog-hero h2 { font-size:clamp(2.5rem,5vw,4rem); color:var(--ciruela-oscuro); font-style:italic; font-weight:400; margin-bottom:20px; }
+        .blog-hero p { font-size:1.1rem; color:var(--nude-light); max-width:600px; margin:0 auto; font-weight:300; line-height:1.9; }
+
+        .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; padding-bottom:60px; }
+        .blog-card { border-radius:22px; overflow:hidden; background:var(--rosa-fondo); border:1px solid rgba(201,135,138,.12); transition:all .4s; }
+        .blog-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(125,78,87,.1); }
+        .blog-card-img { height:200px; position:relative; overflow:hidden; }
+        .blog-card-img-bg { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; }
+        .bg-1 { background:linear-gradient(135deg,#F5D5D5,#E8C4C6); }
+        .bg-2 { background:linear-gradient(135deg,#E8D5C4,#D4C0A8); }
+        .bg-3 { background:linear-gradient(135deg,#D5D5E8,#C4C0D4); }
+        .bg-4 { background:linear-gradient(135deg,#E8D5D5,#D4B8B8); }
+        .bg-5 { background:linear-gradient(135deg,#D5E8D5,#B8D4B8); }
+        .bg-6 { background:linear-gradient(135deg,#E8E5D5,#D4CFB8); }
+        .blog-card-cat { position:absolute; top:16px; left:16px; font-size:.63rem; letter-spacing:2px; text-transform:uppercase; color:var(--ciruela); background:rgba(253,240,240,.9); backdrop-filter:blur(8px); padding:5px 14px; border-radius:100px; font-weight:600; }
+        .blog-card-body { padding:30px 28px 32px; }
+        .blog-card-meta { font-size:.72rem; letter-spacing:1px; color:var(--nude-light); margin-bottom:12px; display:flex; gap:16px; align-items:center; }
+        .blog-card-meta::before { content:''; width:24px; height:1px; background:var(--mauve-claro); }
+        .blog-card h3 { font-size:1.2rem; color:var(--ciruela-oscuro); margin-bottom:12px; font-weight:500; line-height:1.35; }
+        .blog-card p { font-size:.88rem; color:var(--nude-light); font-weight:300; line-height:1.75; margin-bottom:20px; }
+        .blog-card-link { font-size:.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--mauve); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:8px; transition:gap .3s; cursor:pointer; }
+        .blog-card-link:hover { gap:14px; }
+        .blog-card-link::after { content:'→'; }
+
+        .blog-destacado { grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr; border-radius:28px; overflow:hidden; }
+        .blog-destacado .blog-card-img { height:100%; min-height:280px; }
+        .blog-destacado .bg-dest { background:linear-gradient(135deg,var(--ciruela-oscuro),#3D2030); display:flex; align-items:center; justify-content:center; font-size:5rem; }
+        .blog-destacado .blog-card-body { background:var(--blanco); padding:50px 50px; display:flex; flex-direction:column; justify-content:center; }
+        .blog-destacado h3 { font-size:1.7rem !important; }
+
+        .blog-newsletter { background:linear-gradient(135deg,var(--rosa-fondo),var(--crema)); border-radius:28px; padding:60px; text-align:center; margin-bottom:100px; }
+        .blog-newsletter h3 { font-size:2rem; color:var(--ciruela); font-style:italic; margin-bottom:12px; }
+        .blog-newsletter p { font-size:.95rem; color:var(--nude-light); font-weight:300; max-width:480px; margin:0 auto 30px; }
+        .newsletter-form { display:flex; gap:12px; max-width:460px; margin:0 auto; }
+        .newsletter-form input { flex:1; padding:16px 22px; border:1px solid rgba(201,135,138,.25); border-radius:100px; font-family:'Jost',sans-serif; font-size:.9rem; color:var(--nude); background:white; outline:none; transition:border .3s; }
+        .newsletter-form input:focus { border-color:var(--mauve); }
+        .newsletter-form button { padding:16px 32px; background:linear-gradient(135deg,var(--mauve),var(--ciruela)); color:white; border:none; border-radius:100px; font-family:'Jost',sans-serif; font-size:.75rem; letter-spacing:2px; text-transform:uppercase; font-weight:600; cursor:pointer; white-space:nowrap; transition:all .3s; }
+        .newsletter-form button:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(125,78,87,.3); }
+
+        /* ===========================
+           FOOTER GLOBAL
+        =========================== */
+        footer { background:var(--nude); padding:80px 40px 50px; }
+        .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:50px; margin-bottom:60px; }
+        .footer-logo-sec .footer-logo { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--mauve-claro); font-style:italic; margin-bottom:12px; }
+        .footer-logo-sec p { font-size:.85rem; color:rgba(253,240,240,.4); font-weight:300; line-height:1.8; max-width:280px; }
+        .footer-col h5 { font-family:'Playfair Display',serif; font-size:1rem; color:rgba(253,240,240,.7); margin-bottom:20px; font-style:italic; }
+        .footer-col ul { list-style:none; }
+        .footer-col ul li { margin-bottom:10px; }
+        .footer-col ul a { font-size:.82rem; color:rgba(253,240,240,.35); text-decoration:none; transition:color .3s; cursor:pointer; letter-spacing:.5px; }
+        .footer-col ul a:hover { color:var(--mauve-claro); }
+        .footer-bottom { border-top:1px solid rgba(255,255,255,.06); padding-top:30px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+        .footer-bottom p { font-size:.68rem; letter-spacing:1.5px; text-transform:uppercase; color:rgba(253,240,240,.2); }
+        .footer-social { display:flex; gap:12px; }
+        .footer-social a { width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; color:rgba(253,240,240,.3); text-decoration:none; font-size:.8rem; transition:all .3s; }
+        .footer-social a:hover { border-color:var(--mauve); color:var(--mauve-claro); }
+
+        /* ===========================
+           WHATSAPP BTN
+        =========================== */
+        .whatsapp-btn {
+            position:fixed; bottom:30px; right:30px; z-index:9999;
+            width:60px; height:60px; border-radius:50%;
+            background:linear-gradient(135deg,#25D366,#128C7E);
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 6px 24px rgba(37,211,102,.4);
+            cursor:pointer; text-decoration:none;
+            animation:pulse 3s ease-in-out infinite;
+            transition:transform .3s, box-shadow .3s;
+        }
+        .whatsapp-btn:hover { transform:scale(1.12); box-shadow:0 10px 30px rgba(37,211,102,.55); animation:none; }
+        .whatsapp-btn svg { width:30px; fill:white; }
+        .whatsapp-tooltip {
+            position:absolute; right:70px; top:50%; transform:translateY(-50%);
+            background:var(--nude); color:white; padding:8px 16px; border-radius:100px;
+            font-size:.72rem; letter-spacing:1px; white-space:nowrap;
+            opacity:0; pointer-events:none; transition:opacity .3s;
+        }
+        .whatsapp-btn:hover .whatsapp-tooltip { opacity:1; }
+
+        /* ===========================
+           RESPONSIVE
+        =========================== */
+        @media (max-width: 960px) {
+            nav { padding:0 24px; }
+            .nav-links, .nav-cta { display:none; }
+            .hamburger { display:flex; }
+            .grid-2, .sobre-grid, .contacto-grid, .programa-grid { grid-template-columns:1fr; gap:40px; }
+            .sobre-foto-wrap { position:static; }
+            .test-grid { grid-template-columns:1fr; }
+            .blog-grid { grid-template-columns:1fr; }
+            .blog-destacado { grid-template-columns:1fr; }
+            .blog-destacado .blog-card-img { min-height:220px; }
+            .footer-grid { grid-template-columns:1fr 1fr; }
+            .stat-grid { grid-template-columns:1fr; }
+            .stat-item { border-right:none; border-bottom:1px solid rgba(212,175,140,.15); }
+            .intensivo-full .programa-card-top { grid-template-columns:1fr; }
+            .intensivo-full .programa-lista { grid-template-columns:1fr; }
+            .form-row { grid-template-columns:1fr; }
+            .sobre-valores, .formacion-grid { grid-template-columns:1fr; }
+            .newsletter-form { flex-direction:column; }
+            .contacto-form { padding:36px 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-logo" onclick="showPage('inicio')">Soberanía Relacional</div>
+    <ul class="nav-links">
+        <li><a onclick="showPage('inicio')" data-page="inicio">Inicio</a></li>
+        <li><a onclick="showPage('servicios')" data-page="servicios">Programas</a></li>
+        <li><a onclick="showPage('sobre-mi')" data-page="sobre-mi">Sobre mí</a></li>
+        <li><a onclick="showPage('testimonios')" data-page="testimonios">Testimonios</a></li>
+        <li><a onclick="showPage('blog')" data-page="blog">Blog</a></li>
+    </ul>
+    <a class="nav-cta" onclick="showPage('contacto')">Agendar sesión</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <a onclick="showPage('inicio');toggleMenu()">Inicio</a>
+    <a onclick="showPage('servicios');toggleMenu()">Programas</a>
+    <a onclick="showPage('sobre-mi');toggleMenu()">Sobre mí</a>
+    <a onclick="showPage('testimonios');toggleMenu()">Testimonios</a>
+    <a onclick="showPage('blog');toggleMenu()">Blog</a>
+    <a onclick="showPage('contacto');toggleMenu()" style="color:var(--mauve)">Agendar sesión</a>
+</div>
+
+<!-- ========== PÁGINA: INICIO ========== -->
+<div class="page active" id="inicio">
+    <section class="hero">
+        <div class="hero-ornament"></div>
+        <span class="hero-eyebrow animate-fade-up">Mentoring de Alta Claridad</span>
+        <h1 class="animate-fade-up delay-1">Soberanía<span class="hero-sub">Relacional</span></h1>
+        <p class="hero-desc animate-fade-up delay-2">Acompaño a mujeres líderes atrapadas en el sobrepensamiento y la autoexigencia a recuperar calma y claridad para habitar una vida más fácil — sin depender de que su entorno cambie.</p>
+        <button class="btn-primario animate-fade-up delay-3" onclick="showPage('contacto')">Inicia tu transformación</button>
+        <div class="hero-scroll-hint animate-fade-in delay-4">
+            <span>Descubre</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <section class="franja-problema">
+        <div class="container">
+            <div class="grid-2">
+                <div class="reveal">
+                    <div class="seccion-label">El punto de partida</div>
+                    <h2 class="titulo-seccion">¿Tu bienestar es rehén de las circunstancias?</h2>
+                    <p class="texto-cuerpo">Es común creer que si tu pareja lograra alinearse con tu visión, o si existiera una armonía impecable en tu hogar, por fin podrías permitirte un descanso real.</p>
+                    <p class="texto-cuerpo">Ya sea que hoy intentes controlarlo todo o que te sientas como una hoja a la deriva, el origen es el mismo: has olvidado que tu paz es innata.</p>
+                    <ul class="lista-dolores">
+                        <li>Rumias conversaciones que aún no han pasado</li>
+                        <li>Tu productividad depende de cómo esté el ambiente</li>
+                        <li>La tranquilidad se siente como algo que hay que ganarse</li>
+                        <li>Eres eficiente para todos, pero no para ti misma</li>
+                    </ul>
+                </div>
+                <div class="reveal">
+                    <div class="quote-elegante">
+                        <blockquote>"No necesitas que el entorno se alinee para estar bien. Necesitas recuperar el mando absoluto de tu claridad mental."</blockquote>
+                        <cite>— Soberanía Relacional</cite>
+                    </div>
+                    <div style="margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;">
+                        <button class="btn-primario" onclick="showPage('servicios')" style="padding:16px 36px;font-size:.72rem;">Ver programas</button>
+                        <button class="btn-secundario" onclick="showPage('sobre-mi')" style="padding:16px 32px;font-size:.72rem;">Sobre mí</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="banner-promesa">
+        <div class="banner-inner reveal">
+            <div class="badge-dorado">Maestría de Alto Rendimiento</div>
+            <h2>Soberanía y Paz Mental<br>en 90 días</h2>
+            <p>El único sistema diseñado para experimentar una vida más disfrutable a través de la comprensión profunda de la mente. No como destino: como punto de partida.</p>
+            <button class="btn-primario" onclick="showPage('contacto')" style="background:linear-gradient(135deg,var(--dorado-oscuro),var(--dorado));box-shadow:0 8px 30px rgba(212,175,140,.3)">Quiero comenzar</button>
+            <div class="stat-grid">
+                <div class="stat-item"><span class="stat-num">90</span><span class="stat-label">Días de transformación</span></div>
+                <div class="stat-item"><span class="stat-num">3</span><span class="stat-label">Pilares del método</span></div>
+                <div class="stat-item"><span class="stat-num">∞</span><span class="stat-label">Paz como base</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Método en inicio -->
+    <section style="padding:120px 0;background:var(--crema);">
+        <div class="container">
+            <div style="text-align:center;margin-bottom:70px;" class="reveal">
+                <div class="seccion-label center">El camino</div>
+                <h2 class="titulo-seccion" style="text-align:center;">El método en tres actos</h2>
+                <p class="texto-cuerpo" style="text-align:center;max-width:560px;margin:0 auto;">Recuperas el mando de tu realidad interna — de adentro hacia afuera.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="metodo-home-grid">
+                <div class="reveal" style="background:white;border:1px solid rgba(201,135,138,.15);border-radius:24px;padding:46px 38px;transition:all .4s;cursor:default;" onmouseenter="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 50px rgba(125,78,87,.12)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+                    <div style="font-family:'Playfair Display',serif;font-size:4.5rem;font-style:italic;color:rgba(201,135,138,.15);line-height:1;margin-bottom:10px;">01</div>
+                    <h3 style="font-size:1.6rem;color:var(--ciruela);margin-bottom:14px;font-weight:500;">Claridad</h3>
+                    <p style="font-size:.95rem;color:var(--nude-light);font-weight:300;line-height:1.8;">Comprende cómo tu mente construye tu realidad y deja de ser víctima de una "ilusión óptica" emocional.</p>
+                </div>
+                <div class="reveal" style="background:white;border:1px solid rgba(201,135,138,.15);border-radius:24px;padding:46px 38px;transition:all .4s;cursor:default;" onmouseenter="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 50px rgba(125,78,87,.12)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+                    <div style="font-family:'Playfair Display',serif;font-size:4.5rem;font-style:italic;color:rgba(201,135,138,.15);line-height:1;margin-bottom:10px;">02</div>
+                    <h3 style="font-size:1.6rem;color:var(--ciruela);margin-bottom:14px;font-weight:500;">Soberanía</h3>
+                    <p style="font-size:.95rem;color:var(--nude-light);font-weight:300;line-height:1.8;">Recupera tu poder personal. Tu calma deja de ser negociable y deja de depender de los demás.</p>
+                </div>
+                <div class="reveal" style="background:white;border:1px solid rgba(201,135,138,.15);border-radius:24px;padding:46px 38px;transition:all .4s;cursor:default;" onmouseenter="this.style.transform='translateY(-8px)';this.style.boxShadow='0 20px 50px rgba(125,78,87,.12)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+                    <div style="font-family:'Playfair Display',serif;font-size:4.5rem;font-style:italic;color:rgba(201,135,138,.15);line-height:1;margin-bottom:10px;">03</div>
+                    <h3 style="font-size:1.6rem;color:var(--ciruela);margin-bottom:14px;font-weight:500;">Plenitud</h3>
+                    <p style="font-size:.95rem;color:var(--nude-light);font-weight:300;line-height:1.8;">Habita un sistema de vida donde la facilidad y el disfrute son la norma, no la excepción.</p>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:60px;" class="reveal">
+                <button class="btn-primario" onclick="showPage('servicios')">Ver todos los programas</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mini testimonial en inicio -->
+    <section style="padding:100px 0;background:var(--blanco);">
+        <div class="container-sm">
+            <div style="text-align:center;margin-bottom:50px;" class="reveal">
+                <div class="seccion-label center">Voces del camino</div>
+            </div>
+            <div style="background:linear-gradient(135deg,var(--ciruela-oscuro),#3D2030);border-radius:28px;padding:60px;text-align:center;" class="reveal">
+                <div style="font-family:'Playfair Display',serif;font-size:6rem;color:rgba(201,135,138,.2);line-height:.5;margin-bottom:24px;">"</div>
+                <blockquote style="font-size:1.25rem;font-style:italic;color:rgba(253,240,240,.9);line-height:1.65;">Pensé que necesitaba que mi relación cambiara para estar bien. Lo que descubrí fue que la relación siempre fue el espejo — y yo siempre tuve el poder que buscaba afuera.</blockquote>
+                <div style="margin-top:32px;display:flex;align-items:center;justify-content:center;gap:14px;">
+                    <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--mauve-claro),var(--dorado));"></div>
+                    <div style="text-align:left;"><strong style="display:block;font-size:.88rem;color:var(--mauve-claro);">Directora de Operaciones</strong><span style="font-size:.75rem;color:rgba(253,240,240,.4);">CDMX · Programa Soberanía 90 días</span></div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:36px;" class="reveal">
+                <button class="btn-secundario" onclick="showPage('testimonios')">Leer más testimonios</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA final inicio -->
+    <section style="padding:130px 40px;text-align:center;background:var(--rosa-fondo);position:relative;overflow:hidden;">
+        <div style="position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(201,135,138,.1);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+        <div style="position:relative;z-index:2;" class="reveal">
+            <div class="seccion-label center">Tu siguiente paso</div>
+            <h2 class="titulo-seccion" style="text-align:center;font-style:italic;">¿Lista para elegir<br>tu paz?</h2>
+            <p class="texto-cuerpo" style="text-align:center;max-width:540px;margin:0 auto 40px;">Agenda tu sesión exploratoria — sin compromiso, con toda la honestidad.</p>
+            <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;">
+                <button class="btn-primario" onclick="showPage('contacto')">Agendar Sesión de Claridad</button>
+                <button class="btn-secundario" onclick="showPage('blog')">Leer el blog</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-sec"><div class="footer-logo">Soberanía Relacional</div><p>Mentoring exclusivo para la mujer que elige la paz. Basado en los Tres Principios y la Soberanía Interna.</p></div>
+                <div class="footer-col"><h5>Navegar</h5><ul>
+                    <li><a onclick="showPage('inicio')">Inicio</a></li>
+                    <li><a onclick="showPage('servicios')">Programas</a></li>
+                    <li><a onclick="showPage('sobre-mi')">Sobre mí</a></li>
+                    <li><a onclick="showPage('testimonios')">Testimonios</a></li>
+                </ul></div>
+                <div class="footer-col"><h5>Recursos</h5><ul>
+                    <li><a onclick="showPage('blog')">Blog</a></li>
+                    <li><a onclick="showPage('contacto')">Agendar sesión</a></li>
+                </ul></div>
+                <div class="footer-col"><h5>Contacto</h5><ul>
+                    <li><a>hola@soberaniarelacional.com</a></li>
+                    <li><a>WhatsApp</a></li>
+                    <li><a>Instagram</a></li>
+                </ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Soberanía Relacional · Todos los derechos reservados</p>
+                <div class="footer-social">
+                    <a title="Instagram">&#9769;</a>
+                    <a title="WhatsApp">&#9742;</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== PÁGINA: SERVICIOS ========== -->
+<div class="page" id="servicios">
+    <section class="servicios-hero">
+        <div class="seccion-label center" style="justify-content:center;">Lo que ofrezco</div>
+        <h2 class="reveal">Programas & Servicios</h2>
+        <p class="reveal">Cada programa está diseñado para un momento específico de tu camino. Escoge el que resuena con donde estás hoy.</p>
+    </section>
+    <div class="container">
+        <div class="programa-grid">
+            <!-- Programa principal -->
+            <div class="programa-card programa-destacado reveal">
+                <div class="programa-card-top">
+                    <span class="programa-badge">✦ Programa insignia</span>
+                    <h3>Soberanía Relacional<br>90 días</h3>
+                    <p>El programa completo de transformación. Diseñado para la mujer que está lista para ir a la raíz y no volver a vivir rehén de su mente o su entorno.</p>
+                    <ul class="programa-lista">
+                        <li>12 sesiones individuales de 60 min</li>
+                        <li>Acceso a materiales exclusivos del método</li>
+                        <li>Soporte por voz entre sesiones</li>
+                        <li>Comunidad privada de mujeres en el proceso</li>
+                        <li>Grabaciones de cada sesión</li>
+                    </ul>
+                </div>
+                <div class="programa-card-bottom">
+                    <span class="programa-duracion">90 días · Inicio por agenda</span>
+                    <button class="btn-primario" onclick="showPage('contacto')" style="padding:14px 32px;font-size:.72rem;background:linear-gradient(135deg,var(--dorado-oscuro),var(--dorado));box-shadow:0 6px 20px rgba(212,175,140,.3)">Quiero este programa</button>
+                </div>
+            </div>
+
+            <!-- Programa VIP -->
+            <div class="programa-card reveal">
+                <div class="programa-card-top">
+                    <span class="programa-badge">Inmersión VIP</span>
+                    <h3>Día Intensivo de Claridad</h3>
+                    <p>Una jornada completa de trabajo profundo para quienes necesitan un punto de quiebre inmediato. Ideal si tienes una decisión importante por tomar o una situación que se siente urgente.</p>
+                    <ul class="programa-lista">
+                        <li>4 horas de trabajo enfocado contigo</li>
+                        <li>Pre-trabajo de diagnóstico personalizado</li>
+                        <li>Plan de acción post-sesión</li>
+                        <li>Seguimiento de 2 semanas por audio</li>
+                    </ul>
+                </div>
+                <div class="programa-card-bottom">
+                    <span class="programa-duracion">1 día · Formato presencial u online</span>
+                    <button class="btn-primario" onclick="showPage('contacto')" style="padding:14px 32px;font-size:.72rem;">Agendar mi día VIP</button>
+                </div>
+            </div>
+
+            <!-- Mentoría mensual -->
+            <div class="programa-card intensivo-full reveal" style="grid-column:1/-1;">
+                <div class="programa-card-top">
+                    <div>
+                        <span class="programa-badge">Para quien ya inició</span>
+                        <h3>Mentoría de Mantenimiento</h3>
+                        <p>Para mujeres que ya han trabajado el método y quieren un espacio de continuidad, profundización y acompañamiento mensual.</p>
+                        <ul class="programa-lista">
+                            <li>2 sesiones al mes de 60 min</li>
+                            <li>Soporte por voz entre sesiones</li>
+                            <li>Acceso a nuevos materiales</li>
+                            <li>Revisión trimestral de avances</li>
+                        </ul>
+                    </div>
+                    <div style="display:flex;flex-direction:column;justify-content:flex-end;">
+                        <div style="background:var(--rosa-fondo);border-radius:18px;padding:30px;text-align:center;">
+                            <span style="font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--mauve);font-weight:600;">Requisito</span>
+                            <p style="font-size:.9rem;color:var(--nude-light);font-weight:300;margin:10px 0 0;line-height:1.6;">Haber completado el programa de 90 días o una sesión de claridad previa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="programa-card-bottom">
+                    <span class="programa-duracion">Renovable mensualmente</span>
+                    <button class="btn-secundario" onclick="showPage('contacto')" style="padding:14px 32px;font-size:.72rem;">Consultar disponibilidad</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section style="padding:30px 0 100px;">
+            <div style="text-align:center;margin-bottom:50px;" class="reveal">
+                <div class="seccion-label center">Preguntas frecuentes</div>
+                <h2 class="titulo-seccion" style="text-align:center;">Lo que suelen preguntar</h2>
+            </div>
+            <div style="max-width:760px;margin:0 auto;" id="faq">
+                <div class="faq-item reveal" style="border-bottom:1px solid rgba(201,135,138,.15);padding:24px 0;">
+                    <div onclick="toggleFaq(this)" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;">
+                        <h4 style="font-size:1.1rem;color:var(--ciruela);font-weight:500;">¿Cómo sé si este programa es para mí?</h4>
+                        <span style="color:var(--mauve);font-size:1.4rem;transition:transform .3s;" class="faq-icon">+</span>
+                    </div>
+                    <p style="font-size:.95rem;color:var(--nude-light);font-weight:300;line-height:1.8;max-height:0;overflow:hidden;transition:max-height .4s ease,margin .4s;" class="faq-body">Si te identificas con sentirte sobrepasada emocionalmente aunque tengas todo "en orden" externamente, si eres exigente contigo misma y tu bienestar depende de que todo salga bien — este trabajo es para ti. La sesión exploratoria gratuita es el mejor primer paso para verificarlo.</p>
+                </div>
+                <div class="faq-item reveal" style="border-bottom:1px solid rgba(201,135,138,.15);padding:24px 0;">
+                    <div onclick="toggleFaq(this)" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;">
+                        <h4 style="font-size:1.1rem;color:var(--ciruela);font-weight:500;">¿Las sesiones son presenciales u online?</h4>
+                        <span style="color:var(--mauve);font-size:1.4rem;transition:transform .3s;" class="faq-icon">+</span>
+                    </div>
+                    <p style="font-size:.95rem;color:var(--nude-light);font-weight:300;line-height:1.8;max-height:0;overflow:hidden;transition:max-height .4s ease,margin .4s;" class="faq-body">Todas las sesiones son online vía videollamada, lo cual permite acompañar a mujeres en cualquier ciudad o país. El Día Intensivo VIP puede ser presencial en CDMX bajo consulta previa.</p>
+                </div>
+                <div class="faq-item reveal" style="border-bottom:1px solid rgba(201,135,138,.15);padding:24px 0;">
+                    <div onclick="toggleFaq(this)" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;">
+                        <h4 style="font-size:1.1rem;color:var(--ciruela);font-weight:500;">¿En qué se diferencia esto de la terapia?</h4>
+                        <span style="color:var(--mauve);font-size:1.4rem;transition:transform .3s;" class="faq-icon">+</span>
+                    </div>
+                    <p style="font-size:.95rem;color:var(--nude-light);font-weight:300;line-height:1.8;max-height:0;overflow:hidden;transition:max-height .4s ease,margin .4s;" class="faq-body">La terapia trabaja desde el pasado hacia el presente. Este mentoring trabaja desde la comprensión de cómo funciona la mente — sin necesidad de procesar el trauma, sino de ver su mecanismo. El resultado es una comprensión que transforma, no una catarsis que hay que repetir.</p>
+                </div>
+                <div class="faq-item reveal" style="border-bottom:1px solid rgba(201,135,138,.15);padding:24px 0;">
+                    <div onclick="toggleFaq(this)" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;">
+                        <h4 style="font-size:1.1rem;color:var(--ciruela);font-weight:500;">¿Hay una sesión gratuita antes de comprometerme?</h4>
+                        <span style="color:var(--mauve);font-size:1.4rem;transition:transform .3s;" class="faq-icon">+</span>
+                    </div>
+                    <p style="font-size:.95rem;color:var(--nude-light);font-weight:300;line-height:1.8;max-height:0;overflow:hidden;transition:max-height .4s ease,margin .4s;" class="faq-body">Sí. Ofrezco una Sesión de Claridad exploratoria de 30 minutos donde conversamos sobre tu situación, lo que estás buscando y si hay una alineación genuina para trabajar juntas. Sin presión, con total honestidad.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-sec"><div class="footer-logo">Soberanía Relacional</div><p>Mentoring exclusivo para la mujer que elige la paz.</p></div>
+                <div class="footer-col"><h5>Navegar</h5><ul><li><a onclick="showPage('inicio')">Inicio</a></li><li><a onclick="showPage('servicios')">Programas</a></li><li><a onclick="showPage('sobre-mi')">Sobre mí</a></li><li><a onclick="showPage('testimonios')">Testimonios</a></li></ul></div>
+                <div class="footer-col"><h5>Recursos</h5><ul><li><a onclick="showPage('blog')">Blog</a></li><li><a onclick="showPage('contacto')">Agendar sesión</a></li></ul></div>
+                <div class="footer-col"><h5>Contacto</h5><ul><li><a>hola@soberaniarelacional.com</a></li><li><a>WhatsApp</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Soberanía Relacional</p></div>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== PÁGINA: SOBRE MÍ ========== -->
+<div class="page" id="sobre-mi">
+    <div class="sobre-hero">
+        <div class="container">
+            <div class="sobre-grid">
+                <div class="sobre-foto-wrap reveal">
+                    <div class="sobre-foto">
+                        <div class="sobre-foto-deco">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path fill="white" d="M100,20 C140,20 170,50 170,100 C170,150 140,180 100,180 C60,180 30,150 30,100 C30,50 60,20 100,20 Z"/></svg>
+                        </div>
+                        <div class="sobre-foto-tag">
+                            <strong>Tu nombre aquí</strong>
+                            <span>Mentora · Soberanía Relacional</span>
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+                        <div style="background:var(--rosa-fondo);border-radius:14px;padding:20px;text-align:center;border:1px solid rgba(201,135,138,.12);">
+                            <span style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--mauve);font-style:italic;">+5</span>
+                            <span style="display:block;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--nude-light);">Años acompañando</span>
+                        </div>
+                        <div style="background:var(--rosa-fondo);border-radius:14px;padding:20px;text-align:center;border:1px solid rgba(201,135,138,.12);">
+                            <span style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--mauve);font-style:italic;">+200</span>
+                            <span style="display:block;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--nude-light);">Mujeres acompañadas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sobre-contenido reveal">
+                    <div class="seccion-label">Sobre mí</div>
+                    <h2>Hola, soy [Tu Nombre]</h2>
+                    <span class="sobre-titulo-sub">Mentora de Claridad Mental & Soberanía Interna</span>
+
+                    <p>Sé lo que se siente vivir con la mente a mil por hora creyendo que si controlas lo suficiente, si das lo suficiente, si eres lo suficiente — por fin todo estará bien.</p>
+                    <p>Durante años viví así. Exitosa afuera, exhausta adentro. Hasta que descubrí los Tres Principios y comprendí algo que lo cambió todo: mi bienestar nunca dependió de mi entorno. Dependía de si yo entendía cómo funciona mi mente.</p>
+                    <p>Desde entonces acompaño a mujeres líderes — directivas, empresarias, profesionistas — a hacer ese mismo descubrimiento: que la paz no se construye, se recupera.</p>
+
+                    <div class="sobre-quote">
+                        <blockquote>"No entreno mentes, las libero de la ilusión que las tiene ocupadas."</blockquote>
+                    </div>
+
+                    <div class="sobre-valores">
+                        <div class="valor-item">
+                            <h4>Honestidad radical</h4>
+                            <p>No te digo lo que quieres oír. Te acompaño a ver lo que ya está ahí.</p>
+                        </div>
+                        <div class="valor-item">
+                            <h4>Sin recetas</h4>
+                            <p>La comprensión real no viene de técnicas. Viene de ver con claridad.</p>
+                        </div>
+                        <div class="valor-item">
+                            <h4>Profundidad real</h4>
+                            <p>Vamos a la raíz, no a los síntomas. Siempre.</p>
+                        </div>
+                        <div class="valor-item">
+                            <h4>Desde la experiencia</h4>
+                            <p>Este camino lo he transitado yo primero. No teoría: vivencia.</p>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size:1.3rem;color:var(--ciruela);margin:36px 0 20px;">Formación & Certificaciones</h3>
+                    <div class="formacion-grid">
+                        <div class="formacion-item">
+                            <div class="formacion-icon">🎓</div>
+                            <div class="formacion-text"><strong>Tres Principios</strong><span>Certificación internacional · Sydney Banks Institute</span></div>
+                        </div>
+                        <div class="formacion-item">
+                            <div class="formacion-icon">✦</div>
+                            <div class="formacion-text"><strong>Coaching Ontológico</strong><span>Escuela de Coaches de México</span></div>
+                        </div>
+                        <div class="formacion-item">
+                            <div class="formacion-icon">📚</div>
+                            <div class="formacion-text"><strong>Psicología Positiva</strong><span>Universidad Iberoamericana</span></div>
+                        </div>
+                        <div class="formacion-item">
+                            <div class="formacion-icon">🌿</div>
+                            <div class="formacion-text"><strong>Mindfulness Aplicado</strong><span>Formación continuada · 200hrs</span></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:44px;">
+                        <button class="btn-primario" onclick="showPage('contacto')">Agendar sesión exploratoria</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-sec"><div class="footer-logo">Soberanía Relacional</div><p>Mentoring exclusivo para la mujer que elige la paz.</p></div>
+                <div class="footer-col"><h5>Navegar</h5><ul><li><a onclick="showPage('inicio')">Inicio</a></li><li><a onclick="showPage('servicios')">Programas</a></li><li><a onclick="showPage('sobre-mi')">Sobre mí</a></li><li><a onclick="showPage('testimonios')">Testimonios</a></li></ul></div>
+                <div class="footer-col"><h5>Recursos</h5><ul><li><a onclick="showPage('blog')">Blog</a></li><li><a onclick="showPage('contacto')">Agendar sesión</a></li></ul></div>
+                <div class="footer-col"><h5>Contacto</h5><ul><li><a>hola@soberaniarelacional.com</a></li><li><a>WhatsApp</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Soberanía Relacional</p></div>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== PÁGINA: TESTIMONIOS ========== -->
+<div class="page" id="testimonios">
+    <div class="test-hero">
+        <div class="seccion-label center">Mujeres que eligieron</div>
+        <h2 class="reveal">Sus palabras,<br>no las mías</h2>
+        <p class="reveal">Cada historia es única. Lo que comparten es el mismo punto de llegada: una vida más fácil de habitar.</p>
+    </div>
+    <div class="container" style="padding-bottom:0;">
+        <div class="test-grid">
+            <div class="test-card test-destacado reveal">
+                <div class="test-estrellas">★★★★★</div>
+                <blockquote>"Llegué creyendo que mi problema era mi pareja. Me fui con la claridad de que yo era el problema — pero no en el sentido en que suena. Sino en el sentido de que yo también era la solución. Eso lo cambió todo."</blockquote>
+                <div class="test-autora">
+                    <div class="test-avatar"></div>
+                    <div class="test-nombre"><strong>Gerente de Proyectos · Tech</strong><span>CDMX · Programa 90 días</span></div>
+                </div>
+            </div>
+
+            <div class="test-card reveal">
+                <div class="test-estrellas">★★★★★</div>
+                <blockquote>"En 6 semanas entendí más sobre cómo funciona mi mente que en 3 años de terapia. No es que la terapia no sirva — es que esto trabaja desde otro lugar completamente."</blockquote>
+                <div class="test-autora">
+                    <div class="test-avatar"></div>
+                    <div class="test-nombre"><strong>Directora Creativa</strong><span>Guadalajara · Programa 90 días</span></div>
+                </div>
+            </div>
+
+            <div class="test-card reveal">
+                <div class="test-estrellas">★★★★★</div>
+                <blockquote>"Dejé de necesitar la aprobación de mi equipo para sentirme segura. Algo que sonaba imposible se volvió lo más natural del mundo. Mi liderazgo cambió por completo."</blockquote>
+                <div class="test-autora">
+                    <div class="test-avatar"></div>
+                    <div class="test-nombre"><strong>CEO · Startup de Salud</strong><span>Monterrey · Día Intensivo VIP</span></div>
+                </div>
+            </div>
+
+            <div class="test-card reveal">
+                <div class="test-estrellas">★★★★★</div>
+                <blockquote>"Por primera vez en años me fui de vacaciones sin sentir que algo estaba mal. La calma dejó de ser algo que tenía que merecer. Simplemente está."</blockquote>
+                <div class="test-autora">
+                    <div class="test-avatar"></div>
+                    <div class="test-nombre"><strong>Abogada · Bufete propio</strong><span>Barcelona · Programa 90 días</span></div>
+                </div>
+            </div>
+
+            <div class="test-card reveal">
+                <div class="test-estrellas">★★★★★</div>
+                <blockquote>"Me acompañó a tomar la decisión más difícil de mi vida desde un lugar de claridad, no de miedo. Eso no tiene precio."</blockquote>
+                <div class="test-autora">
+                    <div class="test-avatar"></div>
+                    <div class="test-nombre"><strong>Empresaria · Sector Moda</strong><span>CDMX · Mentoría de continuidad</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-cta reveal">
+        <div class="seccion-label center">Tu turno</div>
+        <h3>¿Lista para escribir<br>tu propia historia?</h3>
+        <p>La próxima transformación puede ser la tuya. Empieza con una conversación honesta.</p>
+        <button class="btn-primario" onclick="showPage('contacto')">Agendar Sesión de Claridad</button>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-sec"><div class="footer-logo">Soberanía Relacional</div><p>Mentoring exclusivo para la mujer que elige la paz.</p></div>
+                <div class="footer-col"><h5>Navegar</h5><ul><li><a onclick="showPage('inicio')">Inicio</a></li><li><a onclick="showPage('servicios')">Programas</a></li><li><a onclick="showPage('sobre-mi')">Sobre mí</a></li><li><a onclick="showPage('testimonios')">Testimonios</a></li></ul></div>
+                <div class="footer-col"><h5>Recursos</h5><ul><li><a onclick="showPage('blog')">Blog</a></li><li><a onclick="showPage('contacto')">Agendar sesión</a></li></ul></div>
+                <div class="footer-col"><h5>Contacto</h5><ul><li><a>hola@soberaniarelacional.com</a></li><li><a>WhatsApp</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Soberanía Relacional</p></div>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== PÁGINA: CONTACTO ========== -->
+<div class="page" id="contacto">
+    <div class="contacto-hero">
+        <div class="seccion-label center">Hablemos</div>
+        <h2 class="reveal">Agenda tu Sesión<br>de Claridad</h2>
+        <p class="reveal">Una conversación de 30 minutos, sin costo y sin compromiso. Honesta, directa y desde la claridad.</p>
+    </div>
+    <div class="container">
+        <div class="contacto-grid">
+            <div class="contacto-info reveal">
+                <h3>¿Qué pasa en<br>esta sesión?</h3>
+                <p>Conversamos sobre dónde estás, qué estás buscando y si hay una alineación genuina para trabajar juntas. Sin presión, sin relleno, con toda la presencia.</p>
+                <p style="font-size:.88rem;color:var(--mauve);font-weight:500;">Dura 30 minutos · Es online · Es gratuita</p>
+                <div class="contacto-metodos">
+                    <a class="contacto-metodo" href="https://wa.me/" target="_blank">
+                        <div class="contacto-metodo-icon">💬</div>
+                        <div class="contacto-metodo-text"><strong>WhatsApp directo</strong><span>Respuesta en menos de 24hrs</span></div>
+                    </a>
+                    <a class="contacto-metodo" href="mailto:hola@soberaniarelacional.com">
+                        <div class="contacto-metodo-icon">✉️</div>
+                        <div class="contacto-metodo-text"><strong>hola@soberaniarelacional.com</strong><span>Para consultas o preguntas previas</span></div>
+                    </a>
+                    <a class="contacto-metodo" href="#" target="_blank">
+                        <div class="contacto-metodo-icon">📅</div>
+                        <div class="contacto-metodo-text"><strong>Calendly / Agenda directa</strong><span>Elige tu horario sin intermediarios</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="contacto-form reveal">
+                <div id="formContent">
+                    <h3 class="form-titulo">Cuéntame un poco</h3>
+                    <span class="form-sub">Sesión exploratoria gratuita</span>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tu nombre</label>
+                            <input type="text" id="nombre" placeholder="¿Cómo te llamas?">
+                        </div>
+                        <div class="form-group">
+                            <label>Tu correo</label>
+                            <input type="email" id="correo" placeholder="correo@ejemplo.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>¿A qué te dedicas?</label>
+                        <input type="text" id="ocupacion" placeholder="Título o área de trabajo">
+                    </div>
+                    <div class="form-group">
+                        <label>¿Qué te trajo hasta aquí?</label>
+                        <select id="programa">
+                            <option value="">Selecciona una opción</option>
+                            <option>Estoy en relación y quiero más calma en ella</option>
+                            <option>Me cuesta desconectarme del trabajo</option>
+                            <option>El sobrepensamiento me agota</option>
+                            <option>Busco claridad para una decisión importante</option>
+                            <option>Simplemente quiero una vida más fácil</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>¿Algo más que quieras compartir?</label>
+                        <textarea id="mensaje" placeholder="Cuéntame lo que necesites..."></textarea>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="acepto">
+                        <label for="acepto">He leído y acepto la política de privacidad. Entiendo que esta es una sesión exploratoria gratuita y sin compromiso.</label>
+                    </div>
+                    <button class="btn-primario" onclick="enviarFormulario()" style="width:100%;text-align:center;">Solicitar mi sesión gratuita</button>
+                </div>
+                <div class="form-success" id="formSuccess">
+                    <div class="success-icon">✨</div>
+                    <h4>¡Tu mensaje llegó!</h4>
+                    <p>Gracias por dar este paso. Me pondré en contacto contigo en menos de 24 horas para coordinar nuestra sesión. Con calma y presencia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-sec"><div class="footer-logo">Soberanía Relacional</div><p>Mentoring exclusivo para la mujer que elige la paz.</p></div>
+                <div class="footer-col"><h5>Navegar</h5><ul><li><a onclick="showPage('inicio')">Inicio</a></li><li><a onclick="showPage('servicios')">Programas</a></li><li><a onclick="showPage('sobre-mi')">Sobre mí</a></li><li><a onclick="showPage('testimonios')">Testimonios</a></li></ul></div>
+                <div class="footer-col"><h5>Recursos</h5><ul><li><a onclick="showPage('blog')">Blog</a></li><li><a onclick="showPage('contacto')">Agendar sesión</a></li></ul></div>
+                <div class="footer-col"><h5>Contacto</h5><ul><li><a>hola@soberaniarelacional.com</a></li><li><a>WhatsApp</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Soberanía Relacional</p></div>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== PÁGINA: BLOG ========== -->
+<div class="page" id="blog">
+    <div class="blog-hero">
+        <div class="seccion-label center">Reflexiones & Claridad</div>
+        <h2 class="reveal">El Blog</h2>
+        <p class="reveal">Artículos para la mujer que ya sabe que el cambio real no viene de más información, sino de una comprensión más profunda.</p>
+    </div>
+    <div class="container">
+        <div class="blog-grid">
+            <!-- Artículo destacado -->
+            <div class="blog-card blog-destacado reveal">
+                <div class="blog-card-img">
+                    <div class="blog-card-img-bg bg-dest">🌸</div>
+                    <span class="blog-card-cat">Destacado</span>
+                </div>
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">Marzo 2026 · 8 min lectura</div>
+                    <h3>La paz no se construye: se recupera</h3>
+                    <p>Durante años creí que la calma era algo que se ganaba con esfuerzo, disciplina y las condiciones correctas. Hasta que entendí que la estaba buscando en el lugar equivocado. Este artículo es el inicio de todo.</p>
+                    <a class="blog-card-link" onclick="alert('Próximamente: artículo completo')">Leer artículo completo</a>
+                </div>
+            </div>
+
+            <!-- Artículos regulares -->
+            <div class="blog-card reveal">
+                <div class="blog-card-img"><div class="blog-card-img-bg bg-1">🌿</div><span class="blog-card-cat">Relaciones</span></div>
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">Febrero 2026 · 6 min</div>
+                    <h3>Cuando controlas porque amas (o eso crees)</h3>
+                    <p>El control disfrazado de amor es una de las trampas más comunes en las relaciones. Veamos qué hay debajo.</p>
+                    <a class="blog-card-link" onclick="alert('Próximamente')">Leer más</a>
+                </div>
+            </div>
+
+            <div class="blog-card reveal">
+                <div class="blog-card-img"><div class="blog-card-img-bg bg-2">🧠</div><span class="blog-card-cat">Mente</span></div>
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">Febrero 2026 · 5 min</div>
+                    <h3>El sobrepensamiento no es tu problema — es el síntoma</h3>
+                    <p>Intentar dejar de pensar de más es como intentar no ver una ilusión óptica. La clave es comprender cómo funciona.</p>
+                    <a class="blog-card-link" onclick="alert('Próximamente')">Leer más</a>
+                </div>
+            </div>
+
+            <div class="blog-card reveal">
+                <div class="blog-card-img"><div class="blog-card-img-bg bg-3">✨</div><span class="blog-card-cat">Liderazgo</span></div>
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">Enero 2026 · 7 min</div>
+                    <h3>Liderar desde la claridad: el superpoder que nadie enseña</h3>
+                    <p>Las mejores decisiones de liderazgo no vienen de más información. Vienen de una mente más quieta.</p>
+                    <a class="blog-card-link" onclick="alert('Próximamente')">Leer más</a>
+                </div>
+            </div>
+
+            <div class="blog-card reveal">
+                <div class="blog-card-img"><div class="blog-card-img-bg bg-4">🌙</div><span class="blog-card-cat">Bienestar</span></div>
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">Enero 2026 · 4 min</div>
+                    <h3>Por qué la meditación no te está funcionando</h3>
+                    <p>No es que estés haciéndola mal. Es que estás buscando algo que ya tienes — y ninguna técnica puede dártelo.</p>
+                    <a class="blog-card-link" onclick="alert('Próximamente')">Leer más</a>
+                </div>
+            </div>
+
+            <div class="blog-card reveal">
+                <div class="blog-card-img"><div class="blog-card-img-bg bg-5">💫</div><span class="blog-card-cat">Soberanía</span></div>
+                <div class="blog-card-body">
+                    <div class="blog-card-meta">Diciembre 2025 · 6 min</div>
+                    <h3>El día que dejé de necesitar que me entendieran</h3>
+                    <p>Un artículo personal sobre el camino de soltar la necesidad de validación — y lo que encontré al otro lado.</p>
+                    <a class="blog-card-link" onclick="alert('Próximamente')">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="blog-newsletter reveal">
+            <div class="seccion-label center">Para tu bandeja de entrada</div>
+            <h3>Reflexiones que llegan cuando las necesitas</h3>
+            <p>Una vez al mes, un artículo que va a la raíz. Sin ruido, sin fórmulas. Solo claridad.</p>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Tu correo electrónico">
+                <button onclick="alert('¡Gracias! Pronto recibirás noticias.')">Suscribirme</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-sec"><div class="footer-logo">Soberanía Relacional</div><p>Mentoring exclusivo para la mujer que elige la paz.</p></div>
+                <div class="footer-col"><h5>Navegar</h5><ul><li><a onclick="showPage('inicio')">Inicio</a></li><li><a onclick="showPage('servicios')">Programas</a></li><li><a onclick="showPage('sobre-mi')">Sobre mí</a></li><li><a onclick="showPage('testimonios')">Testimonios</a></li></ul></div>
+                <div class="footer-col"><h5>Recursos</h5><ul><li><a onclick="showPage('blog')">Blog</a></li><li><a onclick="showPage('contacto')">Agendar sesión</a></li></ul></div>
+                <div class="footer-col"><h5>Contacto</h5><ul><li><a>hola@soberaniarelacional.com</a></li><li><a>WhatsApp</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Soberanía Relacional</p></div>
+        </div>
+    </footer>
+</div>
+
+<!-- WHATSAPP BTN -->
+<a class="whatsapp-btn" href="https://wa.me/" target="_blank" title="WhatsApp">
+    <div class="whatsapp-tooltip">¡Escríbeme!</div>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+    // PAGE NAVIGATION
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            a.classList.toggle('active', a.getAttribute('data-page') === pageId);
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(initReveal, 100);
+    }
+
+    // SCROLL REVEAL
+    function initReveal() {
+        const els = document.querySelectorAll('.page.active .reveal');
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        els.forEach(el => obs.observe(el));
+    }
+    initReveal();
+
+    // NAV SCROLL
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // MOBILE MENU
+    function toggleMenu() {
+        const m = document.getElementById('mobileMenu');
+        m.classList.toggle('open');
+    }
+
+    // FAQ ACCORDION
+    function toggleFaq(el) {
+        const body = el.nextElementSibling;
+        const icon = el.querySelector('.faq-icon');
+        const isOpen = body.style.maxHeight && body.style.maxHeight !== '0px';
+        // close all
+        document.querySelectorAll('.faq-body').forEach(b => { b.style.maxHeight = '0px'; b.style.marginTop = '0'; });
+        document.querySelectorAll('.faq-icon').forEach(i => { i.style.transform = 'rotate(0deg)'; });
+        if (!isOpen) {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            body.style.marginTop = '16px';
+            icon.style.transform = 'rotate(45deg)';
+        }
+    }
+
+    // FORMULARIO
+    function enviarFormulario() {
+        const nombre = document.getElementById('nombre').value;
+        const correo = document.getElementById('correo').value;
+        const acepto = document.getElementById('acepto').checked;
+        if (!nombre || !correo) { alert('Por favor completa tu nombre y correo.'); return; }
+        if (!acepto) { alert('Por favor acepta la política de privacidad para continuar.'); return; }
+        document.getElementById('formContent').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+    }
+</script>
+</body>
+</html>

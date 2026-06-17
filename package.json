@@ -1,0 +1,22 @@
+{
+  "name": "ofetexiscoach",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Soberanía Relacional — Mentoring de Alta Claridad. Sitio web construido con Next.js + Supabase.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35"
+  }
+}
