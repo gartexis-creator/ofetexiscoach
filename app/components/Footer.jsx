@@ -46,6 +46,9 @@ export default function Footer() {
             <a title="WhatsApp" href="/contacto">&#9742;</a>
           </div>
         </div>
+        <div className="footer-admin">
+          <Link href="/admin" className="footer-admin-btn">Panel de control</Link>
+        </div>
       </div>
     </footer>
   );

@@ -524,6 +524,14 @@ footer { background:var(--nude); padding:80px 40px 50px; }
 .footer-social { display:flex; gap:12px; }
 .footer-social a { width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; color:rgba(253,240,240,.3); text-decoration:none; font-size:.8rem; transition:all .3s; }
 .footer-social a:hover { border-color:var(--mauve); color:var(--mauve-claro); }
+.footer-admin { text-align:center; margin-top:28px; }
+.footer-admin-btn {
+    display:inline-block; padding:10px 26px; border-radius:100px;
+    border:1px solid rgba(255,255,255,.12); color:rgba(253,240,240,.55);
+    text-decoration:none; font-size:.68rem; letter-spacing:2px; text-transform:uppercase; font-weight:600;
+    transition:all .3s ease; cursor:pointer;
+}
+.footer-admin-btn:hover { background:linear-gradient(135deg,var(--mauve),var(--ciruela)); color:white; border-color:transparent; transform:translateY(-2px); }
 
 /* ===========================
    WHATSAPP BTN

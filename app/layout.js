@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsappButton from './components/WhatsappButton';
 import ScrollReveal from './components/ScrollReveal';
+import ChromeGate from './components/ChromeGate';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -50,10 +51,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" className={`${playfair.variable} ${jost.variable}`}>
       <body>
-        <Navbar />
+        <ChromeGate>
+          <Navbar />
+        </ChromeGate>
         {children}
-        <Footer />
-        <WhatsappButton />
+        <ChromeGate>
+          <Footer />
+          <WhatsappButton />
+        </ChromeGate>
         <ScrollReveal />
       </body>
     </html>
