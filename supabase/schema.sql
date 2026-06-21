@@ -82,11 +82,15 @@ create table if not exists public.testimonios (
   texto       text not null,
   nombre      text not null,
   detalle     text,
+  foto_url    text,
   estrellas   integer not null default 5,
   destacado   boolean not null default false,
   publicado   boolean not null default true,
   orden       integer not null default 0
 );
+
+-- Por si la tabla ya existía sin la columna "foto_url":
+alter table public.testimonios add column if not exists foto_url text;
 
 -- ----------------------------------------------------------------
 --  programas — programas y servicios
@@ -172,17 +176,23 @@ on conflict (slug) do nothing;
 do $$
 begin
   if not exists (select 1 from public.testimonios) then
-    insert into public.testimonios (texto, nombre, detalle, estrellas, destacado, publicado, orden) values
-    ('Llegué creyendo que mi problema era mi pareja. Me fui con la claridad de que yo era el problema — pero no en el sentido en que suena. Sino en el sentido de que yo también era la solución. Eso lo cambió todo.',
-     'Gerente de Proyectos · Tech', 'CDMX · Programa 90 días', 5, true, true, 100),
-    ('En 6 semanas entendí más sobre cómo funciona mi mente que en 3 años de terapia. No es que la terapia no sirva — es que esto trabaja desde otro lugar completamente.',
-     'Directora Creativa', 'Guadalajara · Programa 90 días', 5, false, true, 90),
-    ('Dejé de necesitar la aprobación de mi equipo para sentirme segura. Algo que sonaba imposible se volvió lo más natural del mundo. Mi liderazgo cambió por completo.',
-     'CEO · Startup de Salud', 'Monterrey · Día Intensivo VIP', 5, false, true, 80),
-    ('Por primera vez en años me fui de vacaciones sin sentir que algo estaba mal. La calma dejó de ser algo que tenía que merecer. Simplemente está.',
-     'Abogada · Bufete propio', 'Barcelona · Programa 90 días', 5, false, true, 70),
-    ('Me acompañó a tomar la decisión más difícil de mi vida desde un lugar de claridad, no de miedo. Eso no tiene precio.',
-     'Empresaria · Sector Moda', 'CDMX · Mentoría de continuidad', 5, false, true, 60);
+    insert into public.testimonios (texto, nombre, detalle, foto_url, estrellas, destacado, publicado, orden) values
+    ('Antes de trabajar con ella me sentía estancada y sin dirección clara en varios aspectos de mi vida. Desde nuestra primera sesión demostró una increíble capacidad para escuchar y entender mi situación. A través de sus preguntas reflexivas y su curiosidad por conocer sin juzgar, pude identificar mi verdadero malestar y comprender muchas cosas. La claridad y el enfoque que gané han sido transformadores: no solo me dio herramientas prácticas, también la confianza para enfrentar y superar obstáculos. La recomiendo a cualquiera que busque mejorar su vida personal y profesional.',
+     'Verónica Marcos', 'Teaching assistant',
+     'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/testimonios/veronica-marcos.jpg',
+     5, true, true, 100),
+    ('Entré al coaching porque todos necesitamos revisarnos de manera cíclica para evolucionar. Mi experiencia fue muy positiva: a través de mis conversaciones con Ofe pude ser consciente de pensamientos propios que me limitaban y me generaban estrés innecesario. Recomiendo este trabajo para mejorar como persona y estar más en el presente.',
+     'Ana María Molano', 'Terapeuta holística',
+     'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/testimonios/ana-maria-molano.jpg',
+     5, false, true, 90),
+    ('Hice mi proceso de coaching porque me sentía sin un sentido claro en mi vida. Desde la primera sesión me ayudó a valorarme como mujer y a tomar la vida en equilibrio. Antes me deprimía y me bloqueaba para encontrar soluciones; ahora encuentro enfoques más claros y prácticos. Pude ser menos dura conmigo, abrazarme, comprenderme y dejar de juzgarme. La recomiendo ampliamente.',
+     'Haydeé Barrera', 'Estilista',
+     'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/testimonios/haydee-barrera.jpg',
+     5, false, true, 80),
+    ('Excelente coaching de Ofelia Texis, siempre precisa y objetiva. Cada vez que hablo con ella tiene las palabras indicadas para la situación por la que esté pasando, y me deja mucha reflexión y aprendizaje. Me ha ayudado a descubrirme, a valorarme y a aceptar que no todo se puede controlar. La recomiendo ampliamente.',
+     'Elizabeth Escudero', null, null, 5, false, true, 70),
+    ('Desde que la escuché por primera vez me sentí muy cómoda; me inspiró confianza y me tiene mucha paciencia. Ofelia me ha dado herramientas para seguir adelante con mi vida. La recomiendo ampliamente porque me está enseñando a ser yo misma, a sanar, a valorarme y a cuidarme. Le agradezco de todo corazón porque en cada sesión me escucha y me apoya para ver diferente lo que siento y pienso.',
+     'Claudia Aguilar', 'Ventas por catálogo', null, 5, false, true, 60);
   end if;
 end $$;
 

@@ -37,3 +37,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# materiales personales / privados (no subir al repositorio público)
+/TESTIMONIOS/
+/FOTOS/
+*.pages
+*.docx
+*.pdf
+*.mp4
+*.MP4

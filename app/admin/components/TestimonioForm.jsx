@@ -11,15 +11,34 @@ export default function TestimonioForm({ testimonio }) {
     texto: testimonio?.texto || '',
     nombre: testimonio?.nombre || '',
     detalle: testimonio?.detalle || '',
+    foto_url: testimonio?.foto_url || '',
     estrellas: testimonio?.estrellas ?? 5,
     destacado: testimonio?.destacado || false,
     publicado: testimonio?.publicado ?? true,
   });
+  const [subiendo, setSubiendo] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [msg, setMsg] = useState(null);
 
   function set(campo, valor) {
     setForm((f) => ({ ...f, [campo]: valor }));
+  }
+
+  async function subirFoto(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setSubiendo(true);
+    setMsg(null);
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+    setSubiendo(false);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setMsg({ tipo: 'err', texto: data.error || 'No se pudo subir la foto.' });
+      return;
+    }
+    set('foto_url', data.url);
   }
 
   async function onSubmit(e) {
@@ -66,6 +85,20 @@ export default function TestimonioForm({ testimonio }) {
         </div>
       </div>
 
+      <div className="fg">
+        <label>Foto (opcional)</label>
+        <input type="file" accept="image/*" onChange={subirFoto} />
+        {subiendo && <div className="ayuda">Subiendo foto…</div>}
+        {form.foto_url && (
+          <div className="img-preview">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={form.foto_url} alt="Foto" style={{ width: 90, height: 90, objectFit: 'cover', borderRadius: '50%' }} />
+            <button type="button" className="btn-link" style={{ marginTop: 8 }} onClick={() => set('foto_url', '')}>Quitar foto</button>
+          </div>
+        )}
+        <div className="ayuda">Si no subes foto, se mostrarán las iniciales del nombre.</div>
+      </div>
+
       <div className="fg" style={{ maxWidth: 220 }}>
         <label>Estrellas</label>
         <select value={form.estrellas} onChange={(e) => set('estrellas', Number(e.target.value))}>
@@ -86,7 +119,7 @@ export default function TestimonioForm({ testimonio }) {
       {msg && <div className={`form-msg ${msg.tipo}`}>{msg.texto}</div>}
 
       <div className="form-acciones">
-        <button className="btn-admin" type="submit" disabled={guardando}>
+        <button className="btn-admin" type="submit" disabled={guardando || subiendo}>
           {guardando ? 'Guardando…' : esEdicion ? 'Guardar cambios' : 'Añadir testimonio'}
         </button>
         <button type="button" className="btn-link" onClick={() => router.push('/admin/testimonios')}>Cancelar</button>

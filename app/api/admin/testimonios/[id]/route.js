@@ -9,6 +9,7 @@ function limpiar(body) {
     texto: (body.texto || '').trim(),
     nombre: (body.nombre || '').trim(),
     detalle: body.detalle?.trim() || null,
+    foto_url: body.foto_url?.trim() || null,
     estrellas,
     destacado: Boolean(body.destacado),
     publicado: Boolean(body.publicado),
@@ -27,12 +28,22 @@ export async function PUT(request, { params }) {
     return NextResponse.json({ error: 'El testimonio y el nombre son obligatorios.' }, { status: 400 });
   }
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('testimonios')
     .update(datos)
     .eq('id', params.id)
     .select()
     .single();
+  // Si la columna foto_url aún no existe en la BD, reintenta sin ella.
+  if (error && error.code === '42703') {
+    const { foto_url, ...sinFoto } = datos;
+    ({ data, error } = await supabase
+      .from('testimonios')
+      .update(sinFoto)
+      .eq('id', params.id)
+      .select()
+      .single());
+  }
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true, testimonio: data });
 }
