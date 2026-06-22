@@ -29,22 +29,27 @@ function Estrellas({ n = 5 }) {
   );
 }
 
-function Autora({ nombre, detalle, foto, dorado }) {
+function Autora({ nombre, detalle, foto, pais, bandera, dorado }) {
+  const meta = [detalle, pais].filter(Boolean).join(' · ');
   return (
     <figcaption className="tst-author">
-      {foto ? (
-        <span className="tst-avatar tst-avatar-photo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+      <span className={`tst-avatar${foto ? ' tst-avatar-photo' : dorado ? ' tst-avatar-gold' : ''}`}>
+        {foto ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img src={foto} alt={nombre} />
-        </span>
-      ) : (
-        <span className={`tst-avatar${dorado ? ' tst-avatar-gold' : ''}`}>
-          {iniciales(nombre)}
-        </span>
-      )}
+        ) : (
+          iniciales(nombre)
+        )}
+        {bandera && (
+          <span className="tst-flag" title={pais || ''}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={bandera} alt={pais || 'país'} />
+          </span>
+        )}
+      </span>
       <span className="tst-author-meta">
         <strong>{nombre}</strong>
-        {detalle && <span>{detalle}</span>}
+        {meta && <span>{meta}</span>}
       </span>
     </figcaption>
   );
@@ -53,7 +58,8 @@ function Autora({ nombre, detalle, foto, dorado }) {
 export default async function TestimoniosPage() {
   const testimonios = await getTestimonios();
   const destacado = testimonios.find((t) => t.destacado) || testimonios[0] || null;
-  const resto = testimonios.filter((t) => t !== destacado);
+  const conVideo = testimonios.find((t) => t.video_url && t !== destacado) || null;
+  const resto = testimonios.filter((t) => t !== destacado && t !== conVideo);
 
   return (
     <div className="page-testimonios tst-page">
@@ -83,8 +89,8 @@ export default async function TestimoniosPage() {
             </div>
             <span className="tst-trust-div" />
             <div className="tst-trust-item">
-              <strong>3 Principios</strong>
-              <span className="tst-trust-label">Mente · Consciencia · Pensamiento</span>
+              <strong>Internacional</strong>
+              <span className="tst-trust-label">México · Colombia · España</span>
             </div>
           </div>
         </div>
@@ -103,10 +109,41 @@ export default async function TestimoniosPage() {
                 nombre={destacado.nombre}
                 detalle={destacado.detalle}
                 foto={destacado.foto_url}
+                pais={destacado.pais}
+                bandera={destacado.bandera}
                 dorado
               />
             </div>
           </figure>
+        )}
+
+        {conVideo && (
+          <section className="tst-video reveal">
+            <div className="tst-video-player">
+              <video
+                controls
+                preload="none"
+                playsInline
+                poster={conVideo.poster_url || undefined}
+              >
+                <source src={conVideo.video_url} type="video/mp4" />
+                Tu navegador no puede reproducir el video.
+              </video>
+              <span className="tst-video-badge">▶ Testimonio en video</span>
+            </div>
+            <div className="tst-video-info">
+              <div className="seccion-label">En sus propias palabras</div>
+              <Estrellas n={conVideo.estrellas || 5} />
+              {conVideo.texto && <blockquote>{conVideo.texto}</blockquote>}
+              <Autora
+                nombre={conVideo.nombre}
+                detalle={conVideo.detalle}
+                foto={conVideo.foto_url}
+                pais={conVideo.pais}
+                bandera={conVideo.bandera}
+              />
+            </div>
+          </section>
         )}
 
         {resto.length > 0 && (
@@ -118,7 +155,13 @@ export default async function TestimoniosPage() {
                 </span>
                 <Estrellas n={t.estrellas || 5} />
                 <blockquote>{t.texto}</blockquote>
-                <Autora nombre={t.nombre} detalle={t.detalle} foto={t.foto_url} />
+                <Autora
+                  nombre={t.nombre}
+                  detalle={t.detalle}
+                  foto={t.foto_url}
+                  pais={t.pais}
+                  bandera={t.bandera}
+                />
               </figure>
             ))}
           </div>
