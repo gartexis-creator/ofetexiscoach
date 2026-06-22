@@ -30,7 +30,6 @@ function Estrellas({ n = 5 }) {
 }
 
 function Autora({ nombre, detalle, foto, pais, bandera, dorado }) {
-  const meta = [detalle, pais].filter(Boolean).join(' · ');
   return (
     <figcaption className="tst-author">
       <span className={`tst-avatar${foto ? ' tst-avatar-photo' : dorado ? ' tst-avatar-gold' : ''}`}>
@@ -49,7 +48,17 @@ function Autora({ nombre, detalle, foto, pais, bandera, dorado }) {
       </span>
       <span className="tst-author-meta">
         <strong>{nombre}</strong>
-        {meta && <span>{meta}</span>}
+        {detalle && <span className="tst-detalle">{detalle}</span>}
+        {pais &&
+          (bandera ? (
+            <span className="tst-pais">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={bandera} alt="" />
+              {pais}
+            </span>
+          ) : (
+            <span className="tst-detalle">{pais}</span>
+          ))}
       </span>
     </figcaption>
   );
