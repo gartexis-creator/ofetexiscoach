@@ -387,6 +387,32 @@ nav.scrolled { box-shadow: 0 4px 24px rgba(61,43,46,0.08); }
 .formacion-text strong { display:block; font-size:.85rem; color:var(--ciruela); margin-bottom:2px; }
 .formacion-text span { font-size:.78rem; color:var(--nude-light); font-weight:300; }
 
+/* Foto real de Ofelia */
+.sobre-foto-real { background:var(--ciruela-oscuro); }
+.sobre-foto-real::before { display:none; }
+.sobre-foto-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 18%; }
+.sobre-foto-grad { position:absolute; inset:0; background:linear-gradient(to bottom, transparent 42%, rgba(61,43,46,.62)); }
+.sobre-foto-real .sobre-foto-tag { z-index:2; }
+
+/* Trayectoria / línea de tiempo */
+.sobre-timeline { margin:20px 0 10px; border-left:2px solid var(--mauve-claro); }
+.sobre-hito { display:flex; gap:20px; padding:14px 0 14px 26px; position:relative; }
+.sobre-hito::before {
+    content:''; position:absolute; left:-7px; top:22px; width:12px; height:12px; border-radius:50%;
+    background:linear-gradient(135deg,var(--mauve),var(--dorado)); box-shadow:0 0 0 4px var(--blanco);
+}
+.sobre-hito-anio { font-family:var(--serif); font-style:italic; font-size:1.55rem; color:var(--mauve); flex-shrink:0; min-width:62px; line-height:1.5; }
+.sobre-hito-cuerpo strong { display:block; font-size:1.02rem; color:var(--ciruela); margin-bottom:5px; }
+.sobre-hito-cuerpo p { font-size:.93rem; color:var(--nude-light); font-weight:300; line-height:1.75; margin:0; }
+
+/* Banner de cierre (filosofía + foto 2) */
+.sobre-banner { padding:90px 0 110px; background:linear-gradient(160deg, var(--rosa-fondo), var(--crema)); border-top:1px solid rgba(201,135,138,.12); }
+.sobre-banner-grid { display:grid; grid-template-columns:5fr 6fr; gap:60px; align-items:center; }
+.sobre-banner-foto { border-radius:24px; overflow:hidden; box-shadow:0 24px 60px rgba(125,78,87,.16); }
+.sobre-banner-foto img { width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:4/3; }
+.sobre-banner-texto h2 { font-family:var(--serif); font-style:italic; font-size:clamp(1.8rem,3.2vw,2.7rem); color:var(--ciruela-oscuro); line-height:1.22; margin:10px 0 20px; }
+.sobre-banner-texto p { font-size:1.02rem; color:var(--nude-light); font-weight:300; line-height:1.9; margin-bottom:30px; }
+
 /* ===========================
    PAGE 4 — TESTIMONIOS
 =========================== */
@@ -742,6 +768,8 @@ footer { background:var(--nude); padding:80px 40px 50px; }
     .nav-links, .nav-cta { display:none; }
     .hamburger { display:flex; }
     .grid-2, .sobre-grid, .contacto-grid, .programa-grid { grid-template-columns:1fr; gap:40px; }
+    .sobre-banner-grid { grid-template-columns:1fr; gap:32px; }
+    .sobre-banner { padding:64px 0 80px; }
     .sobre-foto-wrap { position:static; }
     .test-grid { grid-template-columns:1fr; }
     .blog-grid { grid-template-columns:1fr; }

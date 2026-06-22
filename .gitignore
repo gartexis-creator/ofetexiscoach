@@ -46,3 +46,9 @@ next-env.d.ts
 *.pdf
 *.mp4
 *.MP4
+# imágenes sueltas en la raíz (las del sitio viven en Supabase Storage)
+/*.png
+/*.jpg
+/*.jpeg
+/*.JPG
+/IMAGEN*
