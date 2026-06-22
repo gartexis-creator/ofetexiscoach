@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 const RETRATO =
-  'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-retrato.jpg';
+  'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-principal.jpg';
 const OFICINA =
   'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-oficina.jpg';
 
@@ -76,6 +76,12 @@ export default function SobreMiPage() {
                 Coach en Transformación y Bienestar · Mentora de Soberanía Emocional
               </span>
 
+              <p>
+                Quizá me conozcas como <strong>Ofelia Texis</strong>. Es un
+                nombre que llevo con orgullo y gratitud, en honor a mi padre de
+                crianza —mi tío materno—, quien me dio no solo su apellido, sino
+                el ejemplo de amor más poderoso que he conocido.
+              </p>
               <p>
                 Acompaño a mujeres latinas —en toda Latinoamérica y en Estados
                 Unidos— que sienten que sostienen el mundo sobre sus hombros y
