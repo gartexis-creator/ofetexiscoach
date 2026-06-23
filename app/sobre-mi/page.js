@@ -8,8 +8,8 @@ export const metadata = {
 
 const RETRATO =
   'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-principal.jpg';
-const OFICINA =
-  'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-oficina.jpg';
+const BANNER =
+  'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-banner.jpg';
 const DIPLOMA =
   'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/diploma-icg.jpg';
 
@@ -179,7 +179,7 @@ export default function SobreMiPage() {
           <div className="sobre-banner-grid reveal">
             <div className="sobre-banner-foto">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={OFICINA} alt="Ofelia García Texis" />
+              <img src={BANNER} alt="Ofelia García Texis" />
             </div>
             <div className="sobre-banner-texto">
               <div className="seccion-label">Mi filosofía</div>
