@@ -10,6 +10,8 @@ const RETRATO =
   'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-principal.jpg';
 const OFICINA =
   'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-oficina.jpg';
+const DIPLOMA =
+  'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/diploma-icg.jpg';
 
 const TRAYECTORIA = [
   {
@@ -36,7 +38,7 @@ const VALORES = [
   { h: 'Experiencia real', p: '28 años como mujer, esposa y madre, aplicados a tu realidad.' },
   { h: 'Resiliencia probada', p: 'Te acompaño a navegar pérdidas y crisis sin perder tu eje.' },
   { h: 'Cercanía cultural', p: 'Conozco lo que cuesta ser el eje de una familia latina sin perderse a una misma.' },
-  { h: 'Metodología certificada', p: 'Basada en los 3 Principios del funcionamiento psicológico humano.' },
+  { h: 'Metodología certificada', p: 'Basada en los 3 principios de la experiencia humana y el funcionamiento psicológico del ser humano.' },
 ];
 
 export default function SobreMiPage() {
@@ -73,7 +75,7 @@ export default function SobreMiPage() {
               <div className="seccion-label">Sobre mí</div>
               <h2>Hola, soy Ofelia</h2>
               <span className="sobre-titulo-sub">
-                Coach en Transformación y Bienestar · Mentora de Soberanía Emocional
+                Coach en Transformación y Bienestar · Mentora de Soberanía Relacional
               </span>
 
               <p>
@@ -138,6 +140,28 @@ export default function SobreMiPage() {
                   </div>
                 ))}
               </div>
+
+              <h3 className="sobre-form-h3">Certificación</h3>
+              <a className="sobre-cert" href={DIPLOMA} target="_blank" rel="noopener noreferrer">
+                <span className="sobre-cert-img">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={DIPLOMA}
+                    alt="Diploma de Ofelia García Texis — International Coaching Group"
+                  />
+                </span>
+                <span className="sobre-cert-info">
+                  <strong>Coach Profesional en Transformación y de Vida</strong>
+                  <span className="sobre-cert-org">
+                    International Coaching Group (ICG) · Australia · 2021
+                  </span>
+                  <span className="sobre-cert-desc">
+                    Programa basado en los 3 principios de la experiencia humana
+                    y el funcionamiento psicológico del ser humano.
+                  </span>
+                  <span className="sobre-cert-ver">Ver diploma ↗</span>
+                </span>
+              </a>
 
               <div style={{ marginTop: '44px' }}>
                 <Link className="btn-primario" href="/contacto">
