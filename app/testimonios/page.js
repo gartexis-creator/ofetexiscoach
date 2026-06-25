@@ -39,12 +39,6 @@ function Autora({ nombre, detalle, foto, pais, bandera, dorado }) {
         ) : (
           iniciales(nombre)
         )}
-        {bandera && (
-          <span className="tst-flag" title={pais || ''}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={bandera} alt={pais || 'país'} />
-          </span>
-        )}
       </span>
       <span className="tst-author-meta">
         <strong>{nombre}</strong>

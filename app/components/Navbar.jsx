@@ -33,7 +33,7 @@ export default function Navbar() {
     <>
       <nav id="navbar" className={scrolled ? 'scrolled' : ''}>
         <Link href="/" className="nav-logo">
-          Soberanía Relacional
+          Ofelia Texis
         </Link>
         <ul className="nav-links">
           {LINKS.map((l) => (
