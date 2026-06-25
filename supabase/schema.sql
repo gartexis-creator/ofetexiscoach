@@ -192,7 +192,7 @@ begin
     ('Excelente coaching de Ofelia Texis, siempre precisa y objetiva. Cada vez que hablo con ella tiene las palabras indicadas para la situación por la que esté pasando, y me deja mucha reflexión y aprendizaje. Me ha ayudado a descubrirme, a valorarme y a aceptar que no todo se puede controlar. La recomiendo ampliamente.',
      'Elizabeth Escudero', null, null, 5, false, true, 70),
     ('Desde que la escuché por primera vez me sentí muy cómoda; me inspiró confianza y me tiene mucha paciencia. Ofelia me ha dado herramientas para seguir adelante con mi vida. La recomiendo ampliamente porque me está enseñando a ser yo misma, a sanar, a valorarme y a cuidarme. Le agradezco de todo corazón porque en cada sesión me escucha y me apoya para ver diferente lo que siento y pienso.',
-     'Claudia Aguilar', 'Ventas por catálogo', null, 5, false, true, 60);
+     'Claudia Aguilar', null, null, 5, false, true, 60);
   end if;
 end $$;
 

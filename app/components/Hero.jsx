@@ -73,8 +73,8 @@ export default function Hero() {
         </h1>
         <p className="hero-desc animate-fade-up delay-2">
           Acompaño a mujeres líderes atrapadas en el sobrepensamiento y la
-          autoexigencia a recuperar calma y claridad para habitar una vida más
-          fácil — sin depender de que su entorno cambie.
+          autoexigencia a recuperar calma y claridad para habitar una vida en
+          mayor bienestar — sin depender de que su entorno cambie.
         </p>
         <div className="hero-cta-group animate-fade-up delay-3">
           <Link className="btn-primario hero-btn" href="/contacto">

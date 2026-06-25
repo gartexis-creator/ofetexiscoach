@@ -24,7 +24,7 @@ const jost = Jost({
 export const metadata = {
   title: 'Soberanía Relacional | Mentoring de Alta Claridad',
   description:
-    'Acompaño a mujeres líderes atrapadas en el sobrepensamiento y la autoexigencia a recuperar calma y claridad para habitar una vida más fácil — sin depender de que su entorno cambie.',
+    'Acompaño a mujeres líderes atrapadas en el sobrepensamiento y la autoexigencia a recuperar calma y claridad para habitar una vida en mayor bienestar — sin depender de que su entorno cambie.',
   keywords: [
     'mentoring',
     'soberanía relacional',
