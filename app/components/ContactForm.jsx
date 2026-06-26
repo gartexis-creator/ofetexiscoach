@@ -10,7 +10,7 @@ const PROGRAMAS = [
   'Simplemente quiero una vida más fácil',
 ];
 
-export default function ContactForm() {
+export default function ContactForm({ onEnviado }) {
   const [form, setForm] = useState({
     nombre: '',
     correo: '',
@@ -50,7 +50,8 @@ export default function ContactForm() {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'No se pudo enviar el mensaje.');
       }
-      setEnviado(true);
+      if (onEnviado) onEnviado(form);
+      else setEnviado(true);
     } catch (err) {
       setError(err.message || 'Ocurrió un error. Intenta de nuevo.');
     } finally {

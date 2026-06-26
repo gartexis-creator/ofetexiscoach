@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import { getSupabaseServer } from '@/lib/supabaseServer';
 import {
   ahoraCDMX, sumarDias, slotsParaFecha, etiquetaFecha, minutosDeHora,
-  esSlotValido, inicioISO, VENTANA_DIAS, TZ_LABEL,
+  esSlotValido, inicioISO, rangoHora, VENTANA_DIAS, TZ_LABEL,
 } from '@/lib/reservas';
+import { enviarAviso, htmlReserva } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -97,6 +98,13 @@ export async function POST(request) {
     console.error('[reservar] Error:', error.message);
     return NextResponse.json({ error: 'No se pudo completar la reserva. Intenta de nuevo.' }, { status: 500 });
   }
+
+  // Aviso por correo (si está configurado RESEND_API_KEY).
+  await enviarAviso({
+    asunto: `Nueva reserva: ${nombre} · ${etiquetaFecha(fecha)}`,
+    html: htmlReserva({ nombre, correo, whatsapp, mensaje }, etiquetaFecha(fecha), rangoHora(hora)),
+    responderA: correo,
+  }).catch(() => {});
 
   return NextResponse.json({ ok: true, stored: true });
 }

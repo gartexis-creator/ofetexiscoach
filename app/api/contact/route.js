@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServer } from '@/lib/supabaseServer';
+import { enviarAviso, htmlContacto } from '@/lib/email';
 
 export async function POST(request) {
   let body;
@@ -46,6 +47,13 @@ export async function POST(request) {
       { status: 500 }
     );
   }
+
+  // Aviso por correo (si está configurado RESEND_API_KEY). No bloquea la respuesta.
+  await enviarAviso({
+    asunto: `Nuevo mensaje de ${nombre}`,
+    html: htmlContacto({ nombre, correo, ocupacion, programa, mensaje }),
+    responderA: correo,
+  }).catch(() => {});
 
   return NextResponse.json({ ok: true, stored: true });
 }

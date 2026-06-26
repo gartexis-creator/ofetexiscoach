@@ -1,5 +1,4 @@
-import ContactForm from '../components/ContactForm';
-import Reservas from '../components/Reservas';
+import ContactoFlujo from '../components/ContactoFlujo';
 
 export const metadata = {
   title: 'Agenda tu Sesión de Claridad | Soberanía Relacional',
@@ -7,7 +6,7 @@ export const metadata = {
     'Reserva en línea tu Sesión de Claridad: 30 minutos, sin costo y sin compromiso. Honesta, directa y desde la claridad.',
 };
 
-const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'hola@soberaniarelacional.com';
+const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'soberaniarelacional@gmail.com';
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
 
 export default function ContactoPage() {
@@ -29,17 +28,6 @@ export default function ContactoPage() {
       </div>
 
       <div className="container">
-        {/* Reserva directa en línea */}
-        <div className="reservas-bloque reveal">
-          <span className="form-sub">Reserva en línea</span>
-          <h3 className="form-titulo">Elige tu día y tu horario</h3>
-          <Reservas />
-        </div>
-
-        <div className="contacto-sep reveal">
-          <span>o si prefieres, escríbeme primero</span>
-        </div>
-
         <div className="contacto-grid">
           <div className="contacto-info reveal">
             <h3>
@@ -54,6 +42,9 @@ export default function ContactoPage() {
             </p>
             <p className="contacto-destacado">
               Dura 30 minutos · Es online · Es gratuita
+            </p>
+            <p style={{ fontSize: '.92rem', color: 'var(--nude-light)', fontWeight: 300, marginTop: 20 }}>
+              Déjame tus datos y enseguida podrás elegir tu día y horario.
             </p>
             <div className="contacto-metodos">
               <a className="contacto-metodo" href={waHref} target="_blank" rel="noopener noreferrer">
@@ -73,7 +64,7 @@ export default function ContactoPage() {
             </div>
           </div>
 
-          <ContactForm />
+          <ContactoFlujo />
         </div>
       </div>
     </div>

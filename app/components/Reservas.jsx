@@ -23,12 +23,17 @@ function googleCalUrl({ fecha, hora, nombre }) {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-export default function Reservas() {
+export default function Reservas({ inicial }) {
   const [dias, setDias] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [fechaSel, setFechaSel] = useState(null);
   const [horaSel, setHoraSel] = useState(null);
-  const [form, setForm] = useState({ nombre: '', correo: '', whatsapp: '', mensaje: '' });
+  const [form, setForm] = useState({
+    nombre: inicial?.nombre || '',
+    correo: inicial?.correo || '',
+    whatsapp: '',
+    mensaje: '',
+  });
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState('');
   const [exito, setExito] = useState(null);

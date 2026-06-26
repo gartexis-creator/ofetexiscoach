@@ -726,6 +726,11 @@ nav.scrolled { box-shadow: 0 4px 24px rgba(61,43,46,0.08); }
 .contacto-sep::before, .contacto-sep::after { content:''; flex:1; height:1px; background:rgba(201,135,138,.25); }
 .contacto-sep span { font-size:.72rem; letter-spacing:2px; text-transform:uppercase; font-weight:600; color:var(--mauve); white-space:nowrap; }
 
+.flujo-gracias { text-align:center; padding:6px 0 24px; border-bottom:1px solid rgba(201,135,138,.14); margin-bottom:26px; }
+.flujo-gracias .success-icon { font-size:2.6rem; margin-bottom:8px; }
+.flujo-gracias h4 { font-family:var(--serif); font-size:1.5rem; color:var(--ciruela); margin-bottom:10px; }
+.flujo-gracias p { font-size:.94rem; color:var(--nude-light); font-weight:300; line-height:1.7; max-width:390px; margin:0 auto; }
+
 @media (max-width:960px) {
   .reservas-bloque { padding:34px 24px; }
 }
