@@ -1,9 +1,10 @@
 import ContactForm from '../components/ContactForm';
+import Reservas from '../components/Reservas';
 
 export const metadata = {
   title: 'Agenda tu Sesión de Claridad | Soberanía Relacional',
   description:
-    'Una conversación de 30 minutos, sin costo y sin compromiso. Honesta, directa y desde la claridad.',
+    'Reserva en línea tu Sesión de Claridad: 30 minutos, sin costo y sin compromiso. Honesta, directa y desde la claridad.',
 };
 
 const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'hola@soberaniarelacional.com';
@@ -28,6 +29,17 @@ export default function ContactoPage() {
       </div>
 
       <div className="container">
+        {/* Reserva directa en línea */}
+        <div className="reservas-bloque reveal">
+          <span className="form-sub">Reserva en línea</span>
+          <h3 className="form-titulo">Elige tu día y tu horario</h3>
+          <Reservas />
+        </div>
+
+        <div className="contacto-sep reveal">
+          <span>o si prefieres, escríbeme primero</span>
+        </div>
+
         <div className="contacto-grid">
           <div className="contacto-info reveal">
             <h3>
@@ -56,13 +68,6 @@ export default function ContactoPage() {
                 <div className="contacto-metodo-text">
                   <strong>{EMAIL}</strong>
                   <span>Para consultas o preguntas previas</span>
-                </div>
-              </a>
-              <a className="contacto-metodo" href="#" target="_blank" rel="noopener noreferrer">
-                <div className="contacto-metodo-icon">📅</div>
-                <div className="contacto-metodo-text">
-                  <strong>Calendly / Agenda directa</strong>
-                  <span>Elige tu horario sin intermediarios</span>
                 </div>
               </a>
             </div>

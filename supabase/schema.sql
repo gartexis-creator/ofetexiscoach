@@ -114,6 +114,24 @@ create table if not exists public.programas (
   orden           integer not null default 0
 );
 
+-- ----------------------------------------------------------------
+--  reservas — Sesiones de Claridad agendadas (30 min gratis)
+-- ----------------------------------------------------------------
+create table if not exists public.reservas (
+  id          uuid primary key default gen_random_uuid(),
+  creado_en   timestamptz not null default now(),
+  nombre      text not null,
+  correo      text not null,
+  whatsapp    text,
+  fecha       date not null,                       -- día de la sesión (CDMX)
+  hora        text not null,                       -- 'HH:MM' inicio del bloque (CDMX)
+  inicio      timestamptz,                         -- momento exacto, para ordenar
+  mensaje     text,
+  estado      text not null default 'pendiente',   -- pendiente | confirmada
+  leido       boolean not null default false,
+  unique (fecha, hora)                             -- evita doble reserva del mismo horario
+);
+
 
 -- ============================================================
 --  2. SEGURIDAD A NIVEL DE FILA (RLS)
@@ -127,6 +145,7 @@ alter table public.suscriptores enable row level security;
 alter table public.articulos    enable row level security;
 alter table public.testimonios  enable row level security;
 alter table public.programas    enable row level security;
+alter table public.reservas     enable row level security;
 
 
 -- ============================================================
