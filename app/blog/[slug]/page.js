@@ -60,9 +60,14 @@ export default async function ArticuloPage({ params }) {
         <div className="divider" style={{ margin: '10px 0 34px' }} />
 
         <div>
-          {parrafos.map((p, i) => (
-            <p className="texto-cuerpo" key={i} style={{ whiteSpace: 'pre-line' }}>{p}</p>
-          ))}
+          {parrafos.map((p, i) => {
+            const esSubtitulo = p.length <= 75 && !p.includes('\n') && !p.endsWith('.');
+            return esSubtitulo ? (
+              <h3 className="blog-subtitulo" key={i}>{p}</h3>
+            ) : (
+              <p className="texto-cuerpo" key={i} style={{ whiteSpace: 'pre-line' }}>{p}</p>
+            );
+          })}
         </div>
       </article>
 
