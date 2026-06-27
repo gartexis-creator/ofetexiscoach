@@ -41,13 +41,14 @@ export default function Footer() {
         </div>
         <div className="footer-bottom">
           <p>&copy; 2026 Soberanía Relacional · Todos los derechos reservados</p>
+          <div className="footer-legal">
+            <Link href="/privacidad">Aviso de Privacidad</Link>
+            <Link href="/terminos">Términos y Condiciones</Link>
+          </div>
           <div className="footer-social">
             <a title="Instagram" href="https://instagram.com" target="_blank" rel="noopener noreferrer">&#9769;</a>
             <a title="WhatsApp" href="/contacto">&#9742;</a>
           </div>
-        </div>
-        <div className="footer-admin">
-          <Link href="/admin" className="footer-admin-btn">Panel de control</Link>
         </div>
       </div>
     </footer>
