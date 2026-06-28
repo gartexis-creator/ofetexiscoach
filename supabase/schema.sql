@@ -221,24 +221,24 @@ select * from (values
   ('soberania-relacional-90-dias',
    '✦ Programa insignia',
    E'Soberanía Relacional\n90 días',
-   'El programa completo de transformación. Diseñado para la mujer que está lista para ir a la raíz y no volver a vivir rehén de su mente o su entorno.',
-   '["12 sesiones individuales de 60 min","Acceso a materiales exclusivos del método","Soporte por voz entre sesiones","Comunidad privada de mujeres en el proceso","Grabaciones de cada sesión"]'::jsonb,
-   '90 días · Inicio por agenda', 'Quiero este programa', 'dorado', true, false, null, true, 100),
+   'El contenedor definitivo de transformación para la mujer líder que decidió dejar de pagar el precio invisible de sostenerlo todo. En 90 días desmontamos de raíz el sobrepensamiento y la autoexigencia —desde la Mente, la Consciencia y el Pensamiento— para devolverte una libertad interna y relacional innegociable. No aprenderás a tolerar el estrés: dejarás de creer que tu paz depende de que tu entorno cambie.',
+   '["12 encuentros individuales de alta claridad (mentoría 1 a 1)","Línea directa de contención por nota de voz entre sesiones","Biblioteca de soberanía mental y grabación de cada sesión","Comunidad privada de mujeres en el mismo camino"]'::jsonb,
+   '90 días · Inicio por agenda', 'Quiero mi transformación', 'dorado', true, false, null, true, 100),
 
-  ('dia-intensivo-de-claridad',
-   'Inmersión VIP',
-   'Día Intensivo de Claridad',
-   'Una jornada completa de trabajo profundo para quienes necesitan un punto de quiebre inmediato. Ideal si tienes una decisión importante por tomar o una situación que se siente urgente.',
-   '["4 horas de trabajo enfocado contigo","Pre-trabajo de diagnóstico personalizado","Plan de acción post-sesión","Seguimiento de 2 semanas por audio"]'::jsonb,
-   '1 día · Formato presencial u online', 'Agendar mi día VIP', 'primario', false, false, null, true, 90),
+  ('talleres-de-alta-claridad',
+   'Encuentros grupales',
+   'Talleres de Alta Claridad',
+   'Espacios de comprensión grupal, en vivo, para pausar el ruido del entorno y volver a tu centro. Una vez al mes abrimos un contenedor enfocado en los desafíos más reales de la mujer de hoy —la culpa, los límites, la carga mental— mirados desde los 3 Principios. Profundo, cercano y en comunidad.',
+   '["Masterclass temática en vivo (90 a 120 min)","Espacio de mentoría directa para tus situaciones reales","Acceso a la grabación durante 30 días"]'::jsonb,
+   'Mensual · En vivo y online', 'Quiero participar', 'primario', false, false, null, true, 90),
 
-  ('mentoria-de-mantenimiento',
+  ('mentoria-de-maestria',
    'Para quien ya inició',
-   'Mentoría de Mantenimiento',
-   'Para mujeres que ya han trabajado el método y quieren un espacio de continuidad, profundización y acompañamiento mensual.',
-   '["2 sesiones al mes de 60 min","Soporte por voz entre sesiones","Acceso a nuevos materiales","Revisión trimestral de avances"]'::jsonb,
+   'Mentoría de Maestría',
+   'El espacio exclusivo para proteger tu claridad y expandir tu soberanía mes a mes. Integrar los 3 Principios en el día a día es un camino de profundización continua: aquí sigues navegando tus desafíos profesionales y familiares con ligereza, evitando que la mente vuelva al piloto automático de la sobrecarga.',
+   '["2 calibraciones de centro al mes (60 min cada una)","Línea de acompañamiento activo por nota de voz","Acceso a las nuevas herramientas de la metodología","Auditoría trimestral de tu evolución relacional"]'::jsonb,
    'Renovable mensualmente', 'Consultar disponibilidad', 'secundario', false, true,
-   'Haber completado el programa de 90 días o una sesión de claridad previa.', true, 80)
+   'Haber completado el programa de 90 días o una Sesión de Claridad previa.', true, 80)
 ) as v(slug, badge, titulo, descripcion, items, duracion, cta_texto, cta_estilo, destacado, ancho_completo, requisito, publicado, orden)
 on conflict (slug) do nothing;
 

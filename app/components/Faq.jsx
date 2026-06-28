@@ -9,7 +9,7 @@ const FAQS = [
   },
   {
     q: '¿Las sesiones son presenciales u online?',
-    a: 'Todas las sesiones son online vía videollamada, lo cual permite acompañar a mujeres en cualquier ciudad o país. El Día Intensivo VIP puede ser presencial en CDMX bajo consulta previa.',
+    a: 'Todas las sesiones son online vía videollamada, lo que me permite acompañarte estés donde estés —en México, Latinoamérica o Estados Unidos—. Los Talleres de Alta Claridad también son en vivo y online.',
   },
   {
     q: '¿En qué se diferencia esto de la terapia?',
