@@ -7,10 +7,11 @@ export const metadata = {
 };
 
 const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'soberaniarelacional@gmail.com';
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '525572473984';
+const WA_MENSAJE = 'Hola Ofelia, vengo de tu página web y me gustaría agendar mi Sesión de Claridad. 🌸';
 
 export default function ContactoPage() {
-  const waHref = WHATSAPP ? `https://wa.me/${WHATSAPP}` : 'https://wa.me/';
+  const waHref = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(WA_MENSAJE)}`;
 
   return (
     <div className="page-contacto">

@@ -1,9 +1,8 @@
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '525572473984';
+const MENSAJE = 'Hola Ofelia, vengo de tu página web y me gustaría agendar mi Sesión de Claridad. 🌸';
 
 export default function WhatsappButton() {
-  const href = WHATSAPP_NUMBER
-    ? `https://wa.me/${WHATSAPP_NUMBER}`
-    : 'https://wa.me/';
+  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(MENSAJE)}`;
 
   return (
     <a
