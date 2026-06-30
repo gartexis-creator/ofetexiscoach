@@ -1,7 +1,10 @@
 import { getSupabaseServer } from '@/lib/supabaseServer';
-import { etiquetaFecha, rangoHora, ahoraCDMX } from '@/lib/reservas';
+import {
+  etiquetaFecha, etiquetaFechaCorta, rangoHora, ahoraCDMX,
+} from '@/lib/reservas';
 import DeleteButton from '../../components/DeleteButton';
 import ConfirmarReserva from '../../components/ConfirmarReserva';
+import ReservasLive from '../../components/ReservasLive';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,82 +24,66 @@ export default async function ReservasAdminPage() {
   const hoy = ahoraCDMX().fecha;
   const proximas = reservas.filter((r) => r.fecha >= hoy);
   const pasadas = reservas.filter((r) => r.fecha < hoy).reverse();
+  const hoyCount = proximas.filter((r) => r.fecha === hoy).length;
+  const porConfirmar = proximas.filter((r) => r.estado !== 'confirmada').length;
+  const confirmadas = proximas.filter((r) => r.estado === 'confirmada').length;
+
+  const stats = [
+    { num: proximas.length, label: proximas.length === 1 ? 'Cita próxima' : 'Citas próximas' },
+    { num: hoyCount, label: 'Hoy' },
+    { num: porConfirmar, label: 'Por confirmar' },
+    { num: confirmadas, label: 'Confirmadas' },
+  ];
 
   return (
     <>
       <header className="admin-header">
         <div>
-          <div className="admin-eyebrow">Sesiones de Claridad agendadas</div>
-          <h1>Reservas</h1>
-          <p>
-            {proximas.length} {proximas.length === 1 ? 'sesión próxima' : 'sesiones próximas'} · horario Ciudad de México
-          </p>
+          <div className="admin-eyebrow">Sesiones agendadas desde la web</div>
+          <h1>Citas</h1>
+          <p>Cada reserva que alguien hace en tu página aparece aquí · horario Ciudad de México</p>
         </div>
+        <ReservasLive />
       </header>
+
+      <div className="stat-cards">
+        {stats.map((s) => (
+          <div className="stat-card stat-static" key={s.label}>
+            <div className="num">{s.num}</div>
+            <div className="label">{s.label}</div>
+          </div>
+        ))}
+      </div>
 
       {reservas.length === 0 ? (
         <div className="tabla-wrap">
           <div className="vacio">
             <span className="em">📅</span>
-            <p>Aún no tienes reservas. Aparecerán aquí cuando alguien agende su Sesión de Claridad.</p>
+            <p>Aún no tienes citas. Aparecerán aquí en cuanto alguien agende su sesión desde la web.</p>
           </div>
         </div>
       ) : (
         <>
-          <Lista titulo="Próximas" items={proximas} vacio="No tienes sesiones próximas." />
-          {pasadas.length > 0 && <Lista titulo="Pasadas" items={pasadas} atenuado />}
+          <Grupo titulo="Próximas" items={proximas} hoy={hoy} vacio="No tienes sesiones próximas por ahora." />
+          {pasadas.length > 0 && <Grupo titulo="Pasadas" items={pasadas} hoy={hoy} atenuado />}
         </>
       )}
     </>
   );
 }
 
-function Lista({ titulo, items, vacio, atenuado }) {
+function Grupo({ titulo, items, hoy, vacio, atenuado }) {
   return (
-    <div style={{ marginBottom: 30 }}>
-      <div className="panel-title" style={{ marginBottom: 14 }}>{titulo}</div>
+    <div className="cita-grupo">
+      <div className="cita-grupo-titulo">
+        {titulo} <span className="cita-grupo-num">{items.length}</span>
+      </div>
       {items.length === 0 ? (
         <div className="tabla-wrap"><div className="vacio"><p>{vacio}</p></div></div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div className="cita-lista">
           {items.map((r) => (
-            <div className="panel" key={r.id} style={{ marginBottom: 0, opacity: atenuado ? 0.65 : 1 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
-                    <strong style={{ fontSize: '1.05rem', color: 'var(--ciruela)' }}>{r.nombre}</strong>
-                    {r.estado === 'confirmada'
-                      ? <span className="tag tag-pub">Confirmada</span>
-                      : <span className="tag tag-new">Por confirmar</span>}
-                  </div>
-                  <div style={{ fontSize: '.92rem', color: 'var(--nude)' }}>
-                    📅 <strong>{etiquetaFecha(r.fecha)}</strong> · 🕐 {rangoHora(r.hora)} h
-                  </div>
-                </div>
-                {!atenuado && (
-                  <div className="celda-acciones">
-                    <ConfirmarReserva id={r.id} estado={r.estado} />
-                    <DeleteButton endpoint={`/api/admin/reservas/${r.id}`} confirmar={`¿Eliminar la reserva de ${r.nombre}? El horario quedará libre de nuevo.`} />
-                  </div>
-                )}
-                {atenuado && (
-                  <DeleteButton endpoint={`/api/admin/reservas/${r.id}`} confirmar={`¿Eliminar la reserva de ${r.nombre}?`} />
-                )}
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12, marginTop: 14 }}>
-                <Dato etiqueta="Correo" valor={<a href={`mailto:${r.correo}`} style={{ color: 'var(--mauve)' }}>{r.correo}</a>} />
-                {r.whatsapp && (
-                  <Dato etiqueta="WhatsApp" valor={<a href={`https://wa.me/${r.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--mauve)' }}>{r.whatsapp}</a>} />
-                )}
-              </div>
-
-              {r.mensaje && (
-                <div style={{ background: 'var(--rosa-fondo)', borderRadius: 12, padding: '14px 16px', fontSize: '.9rem', lineHeight: 1.6, color: 'var(--nude)', whiteSpace: 'pre-wrap', marginTop: 14 }}>
-                  {r.mensaje}
-                </div>
-              )}
-            </div>
+            <Cita key={r.id} r={r} hoy={hoy} atenuado={atenuado} />
           ))}
         </div>
       )}
@@ -104,11 +91,58 @@ function Lista({ titulo, items, vacio, atenuado }) {
   );
 }
 
-function Dato({ etiqueta, valor }) {
+function Cita({ r, hoy, atenuado }) {
+  const c = etiquetaFechaCorta(r.fecha);
+  const esHoy = r.fecha === hoy;
+  const confirmada = r.estado === 'confirmada';
+
   return (
-    <div>
-      <div style={{ fontSize: '.66rem', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--nude-light)', fontWeight: 600, marginBottom: 4 }}>{etiqueta}</div>
-      <div style={{ fontSize: '.9rem', color: 'var(--nude)' }}>{valor}</div>
-    </div>
+    <article className={`cita-card${atenuado ? ' atenuada' : ''}${confirmada ? ' confirmada' : ''}`}>
+      <div className="cita-fecha">
+        <span className="sem">{c.dia}</span>
+        <span className="num">{c.num}</span>
+        <span className="mes">{c.mes}</span>
+        <span className="hora">{r.hora}</span>
+      </div>
+
+      <div className="cita-cuerpo">
+        <div className="cita-top">
+          <strong className="cita-nombre">{r.nombre}</strong>
+          {esHoy && !atenuado && <span className="tag tag-new">Hoy</span>}
+          {confirmada ? (
+            <span className="tag tag-pub">Confirmada</span>
+          ) : (
+            !atenuado && <span className="tag tag-borr">Por confirmar</span>
+          )}
+        </div>
+
+        <div className="cita-cuando">
+          {etiquetaFecha(r.fecha)} · {rangoHora(r.hora)} h
+        </div>
+
+        <div className="cita-contactos">
+          <a href={`mailto:${r.correo}`}>✉ {r.correo}</a>
+          {r.whatsapp && (
+            <a
+              href={`https://wa.me/${r.whatsapp.replace(/\D/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              💬 {r.whatsapp}
+            </a>
+          )}
+        </div>
+
+        {r.mensaje && <p className="cita-mensaje">{r.mensaje}</p>}
+      </div>
+
+      <div className="cita-acciones">
+        {!atenuado && <ConfirmarReserva id={r.id} estado={r.estado} />}
+        <DeleteButton
+          endpoint={`/api/admin/reservas/${r.id}`}
+          confirmar={`¿Eliminar la cita de ${r.nombre}? El horario quedará libre de nuevo.`}
+        />
+      </div>
+    </article>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { etiquetaFechaCorta } from '@/lib/reservas';
 
 function rango(hhmm) {
   const [h, m] = hhmm.split(':').map(Number);
@@ -15,10 +16,10 @@ function googleCalUrl({ fecha, hora, nombre }) {
   const fin = `${fecha.replace(/-/g, '')}T${String(Math.floor(finMin / 60)).padStart(2, '0')}${String(finMin % 60).padStart(2, '0')}00`;
   const params = new URLSearchParams({
     action: 'TEMPLATE',
-    text: 'Sesión de Claridad con Ofelia Texis',
+    text: 'Sesión gratuita con Ofelia Texis',
     dates: `${ini}/${fin}`,
     ctz: 'America/Mexico_City',
-    details: `Sesión de Claridad gratuita (30 min) para ${nombre}. Ofelia Texis · Soberanía Relacional.`,
+    details: `Primera sesión gratuita (30 min) para ${nombre}. Ofelia Texis · Coaching de vida y transformación.`,
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
@@ -57,6 +58,7 @@ export default function Reservas({ inicial }) {
   }, []);
 
   const dia = dias.find((d) => d.fecha === fechaSel) || null;
+  const paso = horaSel ? 3 : fechaSel ? 2 : 1;
 
   function set(campo, valor) {
     setForm((f) => ({ ...f, [campo]: valor }));
@@ -92,14 +94,13 @@ export default function Reservas({ inicial }) {
     return (
       <div className="rsv-exito">
         <div className="rsv-exito-icon">✓</div>
-        <h3>¡Tu sesión está reservada!</h3>
+        <h3>¡Listo, {exito.nombre.split(' ')[0]}! Tu sesión está agendada</h3>
         <p>
-          Te esperamos el <strong>{exito.etiqueta}</strong> a las{' '}
+          Te espero el <strong>{exito.etiqueta}</strong> a las{' '}
           <strong>{exito.hora} h</strong> <span className="rsv-tz">(hora Ciudad de México)</span>.
         </p>
         <p className="rsv-exito-sub">
-          Ofelia se pondrá en contacto contigo para confirmar los detalles. Mientras tanto,
-          guárdala en tu calendario:
+          Te contactaré para confirmar los detalles. Guárdala en tu calendario para no olvidarla:
         </p>
         <a
           className="btn-primario"
@@ -117,40 +118,66 @@ export default function Reservas({ inicial }) {
   return (
     <div className="rsv">
       <div className="rsv-head">
-        <span className="rsv-badge">30 min · gratis</span>
+        <div>
+          <span className="rsv-badge">Primera sesión · 30 min · Gratis</span>
+          <h3 className="rsv-titulo">Agenda tu sesión</h3>
+        </div>
         <p className="rsv-tz-note">Horarios en hora de la Ciudad de México 🇲🇽</p>
       </div>
+
+      {/* Barra de progreso */}
+      {!cargando && dias.length > 0 && (
+        <div className="rsv-steps" aria-hidden="true">
+          <span className={`rsv-step${paso >= 1 ? ' on' : ''}`}>
+            <i>1</i> Día
+          </span>
+          <span className="rsv-step-line" />
+          <span className={`rsv-step${paso >= 2 ? ' on' : ''}`}>
+            <i>2</i> Hora
+          </span>
+          <span className="rsv-step-line" />
+          <span className={`rsv-step${paso >= 3 ? ' on' : ''}`}>
+            <i>3</i> Tus datos
+          </span>
+        </div>
+      )}
 
       {cargando ? (
         <div className="rsv-cargando">Cargando horarios disponibles…</div>
       ) : dias.length === 0 ? (
         <div className="rsv-cargando">
-          Por ahora no hay horarios disponibles. Escríbeme por el formulario y lo agendamos. 🌸
+          Por ahora no hay horarios disponibles. Escríbeme por WhatsApp y lo agendamos. 🌸
         </div>
       ) : (
         <form onSubmit={reservar}>
-          <div className="rsv-paso-label">1 · Elige el día</div>
+          <div className="rsv-paso-label">
+            <span className="rsv-paso-n">1</span> Elige el día
+          </div>
           <div className="rsv-dias">
             {dias.map((d) => {
-              const c = d.etiqueta.split(', ');
+              const c = etiquetaFechaCorta(d.fecha);
+              const activo = d.fecha === fechaSel;
               return (
                 <button
                   type="button"
                   key={d.fecha}
-                  className={`rsv-dia${d.fecha === fechaSel ? ' activo' : ''}`}
+                  className={`rsv-dia${activo ? ' activo' : ''}`}
                   onClick={() => {
                     setFechaSel(d.fecha);
                     setHoraSel(null);
                   }}
                 >
-                  <span className="rsv-dia-sem">{c[0]}</span>
-                  <span className="rsv-dia-num">{c[1]}</span>
+                  <span className="rsv-dia-sem">{c.dia}</span>
+                  <span className="rsv-dia-num">{c.num}</span>
+                  <span className="rsv-dia-mes">{c.mes}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="rsv-paso-label">2 · Elige el horario</div>
+          <div className="rsv-paso-label">
+            <span className="rsv-paso-n">2</span> Elige el horario
+          </div>
           <div className="rsv-horas">
             {dia?.slots.map((s) => (
               <button
@@ -159,41 +186,50 @@ export default function Reservas({ inicial }) {
                 className={`rsv-hora${s === horaSel ? ' activo' : ''}`}
                 onClick={() => setHoraSel(s)}
               >
-                {rango(s)}
+                {s}
+                <small>{rango(s).split(' – ')[1]}</small>
               </button>
             ))}
           </div>
 
           {horaSel && (
             <div className="rsv-datos">
-              <div className="rsv-paso-label">3 · Tus datos</div>
+              <div className="rsv-paso-label">
+                <span className="rsv-paso-n">3</span> Déjame tus datos
+              </div>
               <div className="rsv-resumen">
-                Reservas: <strong>{dia?.etiqueta}</strong> · <strong>{rango(horaSel)} h</strong>
+                <span className="rsv-resumen-ico">📅</span>
+                <span>
+                  <strong>{dia?.etiqueta}</strong>
+                  <br />
+                  {rango(horaSel)} h · hora CDMX
+                </span>
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Nombre</label>
-                  <input type="text" value={form.nombre} onChange={(e) => set('nombre', e.target.value)} required />
+                  <label>Nombre*</label>
+                  <input type="text" value={form.nombre} onChange={(e) => set('nombre', e.target.value)} required placeholder="¿Cómo te llamas?" />
                 </div>
                 <div className="form-group">
-                  <label>Correo</label>
-                  <input type="email" value={form.correo} onChange={(e) => set('correo', e.target.value)} required />
+                  <label>Correo*</label>
+                  <input type="email" value={form.correo} onChange={(e) => set('correo', e.target.value)} required placeholder="tucorreo@ejemplo.com" />
                 </div>
               </div>
               <div className="form-group">
-                <label>WhatsApp (opcional)</label>
+                <label>WhatsApp</label>
                 <input type="text" value={form.whatsapp} onChange={(e) => set('whatsapp', e.target.value)} placeholder="Para confirmarte la sesión" />
               </div>
               <div className="form-group">
                 <label>¿Algo que quieras contarme? (opcional)</label>
-                <textarea value={form.mensaje} onChange={(e) => set('mensaje', e.target.value)} style={{ minHeight: 80 }} />
+                <textarea value={form.mensaje} onChange={(e) => set('mensaje', e.target.value)} style={{ minHeight: 80 }} placeholder="Cuéntame brevemente qué te trae aquí…" />
               </div>
 
               {error && <div className="form-error">{error}</div>}
 
-              <button className="btn-primario" type="submit" disabled={enviando} style={{ width: '100%', padding: '18px' }}>
-                {enviando ? 'Reservando…' : 'Reservar mi sesión gratis'}
+              <button className="btn-primario rsv-confirmar" type="submit" disabled={enviando}>
+                {enviando ? 'Agendando…' : 'Confirmar mi sesión gratuita'}
               </button>
+              <p className="rsv-nota-final">Sin costo · Sin compromiso · Cancela cuando quieras</p>
             </div>
           )}
 

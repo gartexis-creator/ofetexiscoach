@@ -49,7 +49,7 @@ export default async function DashboardPage() {
     ]);
 
   const tarjetas = [
-    { href: '/admin/reservas', num: reservasProximas, label: reservasProximas === 1 ? 'Sesión próxima' : 'Sesiones próximas' },
+    { href: '/admin/reservas', num: reservasProximas, label: reservasProximas === 1 ? 'Cita próxima' : 'Citas próximas' },
     { href: '/admin/mensajes', num: mensajesNuevos, label: mensajesNuevos === 1 ? 'Mensaje sin leer' : 'Mensajes sin leer' },
     { href: '/admin/suscriptores', num: suscriptores, label: 'Suscriptores' },
     { href: '/admin/blog', num: articulos, label: 'Artículos' },
@@ -79,7 +79,7 @@ export default async function DashboardPage() {
       <div className="panel">
         <div className="panel-title">Atajos rápidos</div>
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-          <Link className="btn-admin" href="/admin/reservas">📅 Ver reservas ({reservasProximas})</Link>
+          <Link className="btn-admin" href="/admin/reservas">📅 Ver citas ({reservasProximas})</Link>
           <Link className="btn-admin ghost" href="/admin/blog/nuevo">✎ Escribir artículo</Link>
           <Link className="btn-admin ghost" href="/admin/testimonios/nuevo">★ Añadir testimonio</Link>
           <Link className="btn-admin ghost" href="/admin/mensajes">✉ Ver mensajes ({mensajesTotal})</Link>

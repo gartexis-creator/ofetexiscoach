@@ -1,14 +1,14 @@
 import ContactoFlujo from '../components/ContactoFlujo';
 
 export const metadata = {
-  title: 'Agenda tu Sesión de Claridad | Soberanía Relacional',
+  title: 'Agenda tu primera sesión gratis | Ofelia Texis',
   description:
-    'Reserva en línea tu Sesión de Claridad: 30 minutos, sin costo y sin compromiso. Honesta, directa y desde la claridad.',
+    'Reserva en línea tu primera sesión gratuita de coaching: 30 minutos, online, sin costo y sin compromiso. Elige tu día y horario.',
 };
 
 const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'soberaniarelacional@gmail.com';
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '525572473984';
-const WA_MENSAJE = 'Hola Ofelia, vengo de tu página web y me gustaría agendar mi Sesión de Claridad. 🌸';
+const WA_MENSAJE = 'Hola Ofelia, vengo de tu página web y me gustaría agendar mi primera sesión gratuita. 🌸';
 
 export default function ContactoPage() {
   const waHref = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(WA_MENSAJE)}`;
@@ -18,13 +18,13 @@ export default function ContactoPage() {
       <div className="contacto-hero">
         <div className="seccion-label center">Hablemos</div>
         <h2 className="reveal">
-          Agenda tu Sesión
+          Agenda tu primera
           <br />
-          de Claridad
+          sesión gratis
         </h2>
         <p className="reveal">
-          Una conversación de 30 minutos, sin costo y sin compromiso. Honesta,
-          directa y desde la claridad.
+          Elige tu día y horario aquí abajo. Una conversación de 30 minutos,
+          online, sin costo y sin compromiso.
         </p>
       </div>
 
@@ -37,15 +37,15 @@ export default function ContactoPage() {
               esta sesión?
             </h3>
             <p>
-              Conversamos sobre dónde estás, qué estás buscando y si hay una
-              alineación genuina para trabajar juntas. Sin presión, sin relleno,
-              con toda la presencia.
+              Me cuentas qué estás viviendo y qué buscas. Te escucho, te doy una
+              primera mirada honesta y, si hay alineación, te explico cómo
+              podríamos trabajar juntas. Sin presión y sin relleno.
             </p>
             <p className="contacto-destacado">
               Dura 30 minutos · Es online · Es gratuita
             </p>
             <p style={{ fontSize: '.92rem', color: 'var(--nude-light)', fontWeight: 300, marginTop: 20 }}>
-              Déjame tus datos y enseguida podrás elegir tu día y horario.
+              Elige tu día y horario, deja tus datos y listo. Así de simple.
             </p>
             <div className="contacto-metodos">
               <a className="contacto-metodo" href={waHref} target="_blank" rel="noopener noreferrer">

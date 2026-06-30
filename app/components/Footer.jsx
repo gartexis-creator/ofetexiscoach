@@ -44,6 +44,7 @@ export default function Footer() {
           <div className="footer-legal">
             <Link href="/privacidad">Aviso de Privacidad</Link>
             <Link href="/terminos">Términos y Condiciones</Link>
+            <Link className="footer-admin" href="/admin" title="Panel de control">Panel</Link>
           </div>
           <div className="footer-social">
             <a title="Instagram" href="https://instagram.com" target="_blank" rel="noopener noreferrer">&#9769;</a>

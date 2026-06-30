@@ -73,6 +73,47 @@
 .stat-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(125, 78, 87, 0.1); border-color: var(--mauve-claro); }
 .stat-card .num { font-family: var(--serif); font-style: italic; font-size: 2.6rem; color: var(--mauve); line-height: 1; }
 .stat-card .label { font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--nude-light); margin-top: 10px; }
+.stat-card.stat-static { cursor: default; }
+.stat-card.stat-static:hover { transform: none; box-shadow: none; border-color: rgba(201, 135, 138, 0.15); }
+
+/* ---------- Indicador "en vivo" ---------- */
+.rsv-live { display: inline-flex; align-items: center; gap: 10px; font-size: .78rem; color: var(--nude-light); font-weight: 500; }
+.rsv-live-dot { width: 9px; height: 9px; border-radius: 50%; background: #4E9E6E; box-shadow: 0 0 0 3px rgba(78, 158, 110, 0.18); flex-shrink: 0; animation: livePulse 2s ease-in-out infinite; }
+.rsv-live-dot.busy { background: var(--dorado); box-shadow: 0 0 0 3px rgba(212, 175, 140, 0.25); }
+@keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+/* ---------- Citas (reservas) ---------- */
+.cita-grupo { margin-bottom: 34px; }
+.cita-grupo-titulo { font-family: var(--serif); font-size: 1.2rem; color: var(--ciruela); font-weight: 500; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.cita-grupo-num { font-family: var(--sans); font-size: .68rem; letter-spacing: 1px; font-weight: 700; color: var(--mauve); background: rgba(201, 135, 138, 0.12); border-radius: 100px; padding: 3px 11px; }
+.cita-lista { display: flex; flex-direction: column; gap: 14px; }
+.cita-card {
+  display: flex; gap: 20px; align-items: stretch;
+  background: var(--blanco); border: 1px solid rgba(201, 135, 138, 0.15);
+  border-radius: 20px; padding: 18px 22px; transition: box-shadow .25s, transform .25s;
+}
+.cita-card:hover { box-shadow: 0 14px 36px rgba(125, 78, 87, 0.1); transform: translateY(-2px); }
+.cita-card.confirmada { border-left: 4px solid #4E9E6E; }
+.cita-card.atenuada { opacity: .6; }
+.cita-fecha {
+  flex-shrink: 0; width: 80px; text-align: center;
+  background: linear-gradient(160deg, var(--rosa-fondo), var(--crema));
+  border: 1px solid rgba(201, 135, 138, 0.16); border-radius: 14px;
+  padding: 12px 8px; display: flex; flex-direction: column; gap: 1px; justify-content: center;
+}
+.cita-fecha .sem { font-size: .6rem; letter-spacing: 1px; text-transform: uppercase; color: var(--mauve); font-weight: 700; }
+.cita-fecha .num { font-family: var(--serif); font-size: 1.8rem; color: var(--ciruela); line-height: 1.05; }
+.cita-fecha .mes { font-size: .58rem; letter-spacing: 1px; text-transform: uppercase; color: var(--nude-light); }
+.cita-fecha .hora { font-size: .72rem; color: var(--ciruela); font-weight: 700; margin-top: 7px; padding-top: 7px; border-top: 1px solid rgba(201, 135, 138, 0.18); }
+.cita-cuerpo { flex: 1; min-width: 0; }
+.cita-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
+.cita-nombre { font-size: 1.08rem; color: var(--ciruela); }
+.cita-cuando { font-size: .82rem; color: var(--nude-light); margin-bottom: 10px; }
+.cita-contactos { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; }
+.cita-contactos a { color: var(--mauve); text-decoration: none; width: fit-content; }
+.cita-contactos a:hover { text-decoration: underline; }
+.cita-mensaje { margin-top: 12px; background: var(--rosa-fondo); border-radius: 10px; padding: 11px 15px; font-size: .85rem; color: var(--nude); line-height: 1.6; white-space: pre-wrap; }
+.cita-acciones { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; justify-content: center; flex-shrink: 0; }
 
 /* ---------- Tarjeta / paneles ---------- */
 .panel { background: var(--blanco); border: 1px solid rgba(201, 135, 138, 0.15); border-radius: 22px; padding: 30px 32px; margin-bottom: 26px; }
@@ -178,4 +219,9 @@ table.admin-tabla { width: 100%; border-collapse: collapse; }
   .admin-main { padding: 28px 20px 60px; }
   .fg-row { grid-template-columns: 1fr; }
   .admin-tabla th:nth-child(3), .admin-tabla td:nth-child(3) { display: none; }
+}
+
+@media (max-width: 680px) {
+  .cita-card { flex-wrap: wrap; gap: 14px; }
+  .cita-acciones { flex-direction: row; width: 100%; justify-content: flex-start; align-items: center; }
 }

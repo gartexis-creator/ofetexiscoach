@@ -6,7 +6,7 @@ import LogoutButton from './LogoutButton';
 
 const ITEMS = [
   { href: '/admin', label: 'Inicio', ico: '◈', exact: true },
-  { href: '/admin/reservas', label: 'Reservas', ico: '📅' },
+  { href: '/admin/reservas', label: 'Citas', ico: '📅' },
   { href: '/admin/mensajes', label: 'Mensajes', ico: '✉' },
   { href: '/admin/suscriptores', label: 'Suscriptores', ico: '❤' },
   { href: '/admin/blog', label: 'Blog', ico: '✎' },
