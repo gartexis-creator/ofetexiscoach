@@ -1,258 +1,246 @@
 import Link from 'next/link';
 import Hero from './components/Hero';
+import { getTestimonios } from '@/lib/content';
+
+export const dynamic = 'force-dynamic';
+
+const BANNER =
+  'https://bizgyycqbwyczqcavmrp.supabase.co/storage/v1/object/public/imagenes/ofelia/ofelia-banner.jpg';
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '525572473984';
-const WA_MENSAJE = 'Hola Ofelia, vengo de tu página web y me gustaría agendar mi primera sesión gratuita. 🌸';
+const WA_MENSAJE =
+  'Hola Ofelia, vengo de tu página web y me gustaría agendar mi primera sesión gratuita. 🌸';
 
-export default function InicioPage() {
+const CONECTORES = new Set(['de', 'del', 'la', 'el', 'y', 'en', '·', '&']);
+function iniciales(nombre) {
+  const palabras = (nombre || '')
+    .split(/[\s·&]+/)
+    .filter((w) => w && !CONECTORES.has(w.toLowerCase()));
+  if (palabras.length === 0) return '✦';
+  if (palabras.length === 1) return palabras[0].slice(0, 2).toUpperCase();
+  return (palabras[0][0] + palabras[palabras.length - 1][0]).toUpperCase();
+}
+
+function Estrellas({ n = 5 }) {
+  return (
+    <div className="tst-stars" aria-label={`${n} de 5 estrellas`}>
+      {'★'.repeat(n)}
+      <span className="tst-stars-off">{'★'.repeat(5 - n)}</span>
+    </div>
+  );
+}
+
+function Autora({ nombre, detalle, foto, pais, bandera, dorado }) {
+  return (
+    <figcaption className="tst-author">
+      <span
+        className={`tst-avatar${foto ? ' tst-avatar-photo' : dorado ? ' tst-avatar-gold' : ''}`}
+      >
+        {foto ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={foto} alt={nombre} />
+        ) : (
+          iniciales(nombre)
+        )}
+      </span>
+      <span className="tst-author-meta">
+        <strong>{nombre}</strong>
+        {detalle && <span className="tst-detalle">{detalle}</span>}
+        {pais &&
+          (bandera ? (
+            <span className="tst-pais">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={bandera} alt="" />
+              {pais}
+            </span>
+          ) : (
+            <span className="tst-detalle">{pais}</span>
+          ))}
+      </span>
+    </figcaption>
+  );
+}
+
+export default async function InicioPage() {
   const waHref = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(WA_MENSAJE)}`;
+
+  const testimonios = await getTestimonios();
+  const destacado = testimonios.find((t) => t.destacado) || testimonios[0] || null;
+  const cards = testimonios.filter((t) => t !== destacado).slice(0, 3);
 
   return (
     <div className="page-inicio">
       {/* Hero */}
       <Hero />
 
-      {/* ¿Te reconoces en esto? */}
-      <section className="franja-problema">
-        <div className="container">
-          <div className="grid-2">
-            <div className="reveal">
-              <div className="seccion-label">¿Te suena familiar?</div>
-              <h2 className="titulo-seccion">
-                Cuando el agotamiento
-                <br />
-                se vuelve tu estado normal.
-              </h2>
-              <p className="texto-cuerpo">
-                No es que seas débil. Es que llevas demasiado tiempo
-                cargando con todo — las expectativas, las relaciones,
-                las decisiones — sin que nadie te acompañe de verdad.
-              </p>
-              <ul className="lista-dolores">
-                <li>Tu mente no para: rumias, anticipas, te agota</li>
-                <li>Eres eficiente para todos, pero invisible para ti misma</li>
-                <li>Tus relaciones te drenan más de lo que te nutren</li>
-                <li>Sabes que algo tiene que cambiar, pero no sabes por dónde</li>
-                <li>Llevas tiempo posponiendo tu propio bienestar</li>
-              </ul>
-            </div>
-            <div className="reveal">
-              <div className="quote-elegante">
-                <blockquote>
-                  &quot;No necesitas tenerlo todo resuelto para empezar.
-                  Solo necesitas una conversación honesta — y las ganas
-                  de vivir diferente.&quot;
-                </blockquote>
-                <cite>— Ofelia Texis</cite>
-              </div>
-              <div style={{ marginTop: '36px' }}>
-                <Link
-                  className="btn-primario"
-                  href="/contacto"
-                  style={{ padding: '16px 36px', fontSize: '.72rem' }}
-                >
-                  Quiero mi sesión gratuita
-                </Link>
-              </div>
-            </div>
-          </div>
+      {/* ¿Te identificas? */}
+      <section className="home-dolor">
+        <div className="container-sm" style={{ textAlign: 'center' }}>
+          <div className="seccion-label center">¿Te identificas?</div>
+          <h2 className="titulo-seccion" style={{ textAlign: 'center' }}>
+            Estás aquí por una razón.
+          </h2>
+          <p
+            className="texto-cuerpo"
+            style={{ textAlign: 'center', maxWidth: '480px', margin: '0 auto 14px' }}
+          >
+            Si algo de esto te suena, una sesión conmigo puede ayudarte:
+          </p>
+          <ul className="dolor-grid reveal">
+            <li>Vives con ansiedad o sobrepensamiento constante</li>
+            <li>El agotamiento se volvió tu estado normal</li>
+            <li>Tus relaciones te drenan en lugar de sumarte</li>
+            <li>Quieres un cambio, pero no sabes por dónde empezar</li>
+          </ul>
         </div>
       </section>
 
-      {/* ¿Cómo trabajamos juntas? */}
-      <section style={{ padding: '120px 0', background: 'var(--crema)' }}>
+      {/* ¿Cómo funciona? */}
+      <section className="home-pasos">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '70px' }} className="reveal">
-            <div className="seccion-label center">El proceso</div>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }} className="reveal">
+            <div className="seccion-label center">Cómo funciona</div>
             <h2 className="titulo-seccion" style={{ textAlign: 'center' }}>
-              ¿Cómo trabajamos juntas?
+              Empezar es simple
             </h2>
-            <p
-              className="texto-cuerpo"
-              style={{ textAlign: 'center', maxWidth: '520px', margin: '0 auto' }}
-            >
-              Sin formularios eternos, sin compromisos desde el día uno.
-              Empezamos con una conversación.
-            </p>
           </div>
           <div className="metodo-home-grid">
             <div className="reveal metodo-card">
               <div className="metodo-num">01</div>
               <h3>Agenda tu sesión gratis</h3>
-              <p>
-                Elige el día y horario que mejor te acomode. Una
-                conversación de 30 minutos, online y sin ningún costo.
-                Solo tú y yo.
-              </p>
+              <p>Eliges día y hora. 30 minutos, online y sin costo.</p>
             </div>
             <div className="reveal metodo-card">
               <div className="metodo-num">02</div>
-              <h3>Te escucho, sin rodeos</h3>
-              <p>
-                Platicamos sobre lo que estás viviendo. Entiendo tu
-                situación y te digo con honestidad si creo que puedo
-                ayudarte y cómo.
-              </p>
+              <h3>Hablamos de tu situación</h3>
+              <p>Me cuentas qué estás viviendo y te digo cómo puedo ayudarte.</p>
             </div>
             <div className="reveal metodo-card">
               <div className="metodo-num">03</div>
-              <h3>Avanzamos a tu ritmo</h3>
-              <p>
-                Si hay alineación, te hago una propuesta completamente
-                personalizada — a tu medida, a tu momento, sin programas
-                enlatados.
-              </p>
+              <h3>Diseñamos tu proceso</h3>
+              <p>Si avanzamos, armo un plan a tu medida. Nada enlatado.</p>
             </div>
           </div>
-          <div style={{ textAlign: 'center', marginTop: '60px' }} className="reveal">
+          <div style={{ textAlign: 'center', marginTop: '54px' }} className="reveal">
             <Link className="btn-primario" href="/contacto">
-              Empezar — primera sesión gratis
+              Agenda tu sesión gratis
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Testimonial */}
-      <section style={{ padding: '100px 0', background: 'var(--blanco)' }}>
-        <div className="container-sm">
-          <div style={{ textAlign: 'center', marginBottom: '50px' }} className="reveal">
-            <div className="seccion-label center">Lo que dicen ellas</div>
-          </div>
-          <div
-            style={{
-              background: 'linear-gradient(135deg,var(--ciruela-oscuro),#3D2030)',
-              borderRadius: '28px',
-              padding: '60px',
-              textAlign: 'center',
-            }}
-            className="reveal"
-          >
-            <div
-              style={{
-                fontFamily: 'var(--serif)',
-                fontSize: '6rem',
-                color: 'rgba(201,135,138,.2)',
-                lineHeight: '.5',
-                marginBottom: '24px',
-              }}
-            >
-              &quot;
+      {/* Quién te acompaña */}
+      <section className="home-quien">
+        <div className="container">
+          <div className="home-quien-grid reveal">
+            <div className="home-quien-foto">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={BANNER} alt="Ofelia Texis, coach de vida y transformación" />
             </div>
-            <blockquote
-              style={{
-                fontSize: '1.25rem',
-                fontStyle: 'italic',
-                color: 'rgba(253,240,240,.9)',
-                lineHeight: '1.65',
-              }}
-            >
-              Pensé que necesitaba que mi vida entera cambiara para sentirme
-              bien. Lo que descubrí fue que el cambio siempre empezó conmigo —
-              y que nunca estuve sola en el proceso.
-            </blockquote>
-            <div
-              style={{
-                marginTop: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '14px',
-              }}
-            >
-              <div
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg,var(--mauve-claro),var(--dorado))',
-                }}
-              />
-              <div style={{ textAlign: 'left' }}>
-                <strong
-                  style={{ display: 'block', fontSize: '.88rem', color: 'var(--mauve-claro)' }}
-                >
-                  Directora de Operaciones
-                </strong>
-                <span style={{ fontSize: '.75rem', color: 'rgba(253,240,240,.4)' }}>
-                  CDMX · Proceso de coaching personalizado
-                </span>
+            <div className="home-quien-texto">
+              <div className="seccion-label">Quién te acompaña</div>
+              <h2 className="titulo-seccion">Hola, soy Ofelia Texis</h2>
+              <p className="texto-cuerpo">
+                Coach certificada en transformación y bienestar. Llevo más de 5
+                años acompañando a mujeres a recuperar su claridad y su calma,
+                con un método basado en los 3 principios de la experiencia
+                humana.
+              </p>
+              <p className="texto-cuerpo">
+                No trabajo con fórmulas genéricas: cada proceso se diseña según
+                lo que tú necesitas hoy.
+              </p>
+              <Link className="hero-link" href="/sobre-mi">
+                Conoce mi historia <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonios reales */}
+      <section className="home-testimonios">
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '46px' }} className="reveal">
+            <div className="seccion-label center">Testimonios reales</div>
+            <h2 className="titulo-seccion" style={{ textAlign: 'center' }}>
+              Lo que viven mis clientas
+            </h2>
+          </div>
+
+          {destacado && (
+            <figure className="tst-featured reveal">
+              <span className="tst-featured-mark" aria-hidden="true">
+                &ldquo;
+              </span>
+              <div className="tst-featured-body">
+                <Estrellas n={destacado.estrellas || 5} />
+                <blockquote>{destacado.texto}</blockquote>
+                <Autora
+                  nombre={destacado.nombre}
+                  detalle={destacado.detalle}
+                  foto={destacado.foto_url}
+                  pais={destacado.pais}
+                  bandera={destacado.bandera}
+                  dorado
+                />
               </div>
+            </figure>
+          )}
+
+          {cards.length > 0 && (
+            <div className="tst-grid" style={{ marginTop: '28px' }}>
+              {cards.map((t, i) => (
+                <figure className="tst-card reveal" key={t.id || i}>
+                  <span className="tst-card-mark" aria-hidden="true">
+                    &ldquo;
+                  </span>
+                  <Estrellas n={t.estrellas || 5} />
+                  <blockquote>{t.texto}</blockquote>
+                  <Autora
+                    nombre={t.nombre}
+                    detalle={t.detalle}
+                    foto={t.foto_url}
+                    pais={t.pais}
+                    bandera={t.bandera}
+                  />
+                </figure>
+              ))}
             </div>
-          </div>
-          <div style={{ textAlign: 'center', marginTop: '36px' }} className="reveal">
+          )}
+
+          <div style={{ textAlign: 'center', marginTop: '44px' }} className="reveal">
             <Link className="btn-secundario" href="/testimonios">
-              Leer más testimonios
+              Ver todos los testimonios
             </Link>
           </div>
         </div>
       </section>
 
-      {/* CTA Final */}
-      <section
-        style={{
-          padding: '130px 40px',
-          textAlign: 'center',
-          background: 'var(--rosa-fondo)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            width: '600px',
-            height: '600px',
-            borderRadius: '50%',
-            border: '1px solid rgba(201,135,138,.1)',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%,-50%)',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            width: '900px',
-            height: '900px',
-            borderRadius: '50%',
-            border: '1px solid rgba(201,135,138,.05)',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%,-50%)',
-          }}
-        />
+      {/* CTA final */}
+      <section className="home-cta-final">
+        <div className="home-cta-ring" />
+        <div className="home-cta-ring home-cta-ring-2" />
         <div style={{ position: 'relative', zIndex: 2 }} className="reveal">
-          <div className="seccion-label center">Tu siguiente paso</div>
-          <h2
-            className="titulo-seccion"
-            style={{ textAlign: 'center', fontStyle: 'italic' }}
-          >
-            Tu primera sesión
-            <br />
-            no cuesta nada.
+          <div className="seccion-label center">Tu primer paso</div>
+          <h2 className="titulo-seccion" style={{ textAlign: 'center' }}>
+            Tu primera sesión es gratis.
           </h2>
           <p
             className="texto-cuerpo"
             style={{
               textAlign: 'center',
-              maxWidth: '500px',
-              margin: '0 auto 40px',
+              maxWidth: '480px',
+              margin: '0 auto 38px',
               fontSize: '1.1rem',
             }}
           >
-            Pero sí puede cambiarlo todo. 30 minutos, online, sin compromiso.
-            Solo tú y yo, hablando de lo que más importa.
+            30 minutos, online, sin compromiso. El primer paso para cambiar cómo
+            te sientes.
           </p>
-          <div
-            style={{
-              display: 'flex',
-              gap: '18px',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
+          <div className="home-cta-botones">
             <Link className="btn-primario" href="/contacto">
-              Agendar ahora — es gratis
+              Agenda ahora — es gratis
             </Link>
             <a
               className="btn-secundario"
@@ -263,17 +251,7 @@ export default function InicioPage() {
               Escribir por WhatsApp
             </a>
           </div>
-          <p
-            style={{
-              marginTop: '28px',
-              fontSize: '.75rem',
-              letterSpacing: '1.5px',
-              color: 'var(--nude-light)',
-              textTransform: 'uppercase',
-            }}
-          >
-            Sin tarjeta · Sin compromisos · Sin letra chica
-          </p>
+          <p className="home-cta-nota">Sin tarjeta · Sin compromiso</p>
         </div>
       </section>
     </div>
