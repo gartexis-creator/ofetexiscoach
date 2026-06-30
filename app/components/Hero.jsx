@@ -65,23 +65,23 @@ export default function Hero() {
       <div className="hero-content">
         <span className="hero-badge animate-fade-up">
           <span className="dot" />
-          Mentoring de Alta Claridad
+          Primera sesión · Gratuita · Sin compromiso
         </span>
         <h1 className="animate-fade-up delay-1">
-          <span className="hero-title-word">Soberanía</span>
-          <span className="hero-sub">Relacional</span>
+          <span className="hero-title-word">De sobrevivir</span>
+          <br />
+          <span className="hero-title-word">a vivir bien.</span>
+          <span className="hero-sub">Coaching de vida · 1 a 1 · Online</span>
         </h1>
         <p className="hero-desc animate-fade-up delay-2">
-          Acompaño a mujeres líderes atrapadas en el sobrepensamiento y la
-          autoexigencia a recuperar calma y claridad para habitar una vida en
-          mayor bienestar — sin depender de que su entorno cambie.
+          Soy <strong>Ofelia Texis</strong>, coach de vida y transformación.
+          Acompaño a mujeres que se sienten atrapadas — en el agotamiento,
+          el sobrepensamiento o relaciones que las drenan — a recuperar su
+          claridad, su calma y su dirección.
         </p>
         <div className="hero-cta-group animate-fade-up delay-3">
           <Link className="btn-primario hero-btn" href="/contacto">
-            Inicia tu transformación
-          </Link>
-          <Link className="hero-link" href="/servicios">
-            Conoce el método <span aria-hidden="true">→</span>
+            Agenda tu primera sesión — es gratis
           </Link>
         </div>
         <div className="hero-trust animate-fade-in delay-4">
@@ -96,8 +96,8 @@ export default function Hero() {
           </div>
           <span className="hero-trust-div" />
           <div className="hero-trust-item">
-            <strong>90</strong>
-            <span>Días de transformación</span>
+            <strong>100%</strong>
+            <span>Online</span>
           </div>
         </div>
       </div>

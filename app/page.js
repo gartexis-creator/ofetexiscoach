@@ -1,68 +1,57 @@
 import Link from 'next/link';
 import Hero from './components/Hero';
 
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '525572473984';
+const WA_MENSAJE = 'Hola Ofelia, vengo de tu página web y me gustaría agendar mi primera sesión gratuita. 🌸';
+
 export default function InicioPage() {
+  const waHref = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(WA_MENSAJE)}`;
+
   return (
     <div className="page-inicio">
       {/* Hero */}
       <Hero />
 
-      {/* Franja problema */}
+      {/* ¿Te reconoces en esto? */}
       <section className="franja-problema">
         <div className="container">
           <div className="grid-2">
             <div className="reveal">
-              <div className="seccion-label">El punto de partida</div>
+              <div className="seccion-label">¿Te suena familiar?</div>
               <h2 className="titulo-seccion">
-                ¿Tu bienestar es rehén de las circunstancias?
+                Cuando el agotamiento
+                <br />
+                se vuelve tu estado normal.
               </h2>
               <p className="texto-cuerpo">
-                Es común creer que si tu pareja lograra alinearse con tu visión,
-                o si existiera una armonía impecable en tu hogar, por fin podrías
-                permitirte un descanso real.
-              </p>
-              <p className="texto-cuerpo">
-                Ya sea que hoy intentes controlarlo todo o que te sientas como
-                una hoja a la deriva, el origen es el mismo: has olvidado que tu
-                paz es innata.
+                No es que seas débil. Es que llevas demasiado tiempo
+                cargando con todo — las expectativas, las relaciones,
+                las decisiones — sin que nadie te acompañe de verdad.
               </p>
               <ul className="lista-dolores">
-                <li>Rumias conversaciones que aún no han pasado</li>
-                <li>Tu productividad depende de cómo esté el ambiente</li>
-                <li>La tranquilidad se siente como algo que hay que ganarse</li>
-                <li>Eres eficiente para todos, pero no para ti misma</li>
+                <li>Tu mente no para: rumias, anticipas, te agota</li>
+                <li>Eres eficiente para todos, pero invisible para ti misma</li>
+                <li>Tus relaciones te drenan más de lo que te nutren</li>
+                <li>Sabes que algo tiene que cambiar, pero no sabes por dónde</li>
+                <li>Llevas tiempo posponiendo tu propio bienestar</li>
               </ul>
             </div>
             <div className="reveal">
               <div className="quote-elegante">
                 <blockquote>
-                  &quot;No necesitas que el entorno se alinee para estar bien.
-                  Necesitas recuperar el mando absoluto de tu claridad
-                  mental.&quot;
+                  &quot;No necesitas tenerlo todo resuelto para empezar.
+                  Solo necesitas una conversación honesta — y las ganas
+                  de vivir diferente.&quot;
                 </blockquote>
-                <cite>— Soberanía Relacional</cite>
+                <cite>— Ofelia Texis</cite>
               </div>
-              <div
-                style={{
-                  marginTop: '36px',
-                  display: 'flex',
-                  gap: '14px',
-                  flexWrap: 'wrap',
-                }}
-              >
+              <div style={{ marginTop: '36px' }}>
                 <Link
                   className="btn-primario"
-                  href="/servicios"
+                  href="/contacto"
                   style={{ padding: '16px 36px', fontSize: '.72rem' }}
                 >
-                  Ver programas
-                </Link>
-                <Link
-                  className="btn-secundario"
-                  href="/sobre-mi"
-                  style={{ padding: '16px 32px', fontSize: '.72rem' }}
-                >
-                  Sobre mí
+                  Quiero mi sesión gratuita
                 </Link>
               </div>
             </div>
@@ -70,101 +59,64 @@ export default function InicioPage() {
         </div>
       </section>
 
-      {/* Banner promesa */}
-      <section className="banner-promesa">
-        <div className="banner-inner reveal">
-          <div className="badge-dorado">Maestría de Alto Rendimiento</div>
-          <h2>
-            Soberanía y Paz Mental
-            <br />
-            en 90 días
-          </h2>
-          <p>
-            El único sistema diseñado para experimentar una vida más disfrutable
-            a través de la comprensión profunda de la mente. No como destino:
-            como punto de partida.
-          </p>
-          <Link
-            className="btn-primario"
-            href="/contacto"
-            style={{
-              background: 'linear-gradient(135deg,var(--dorado-oscuro),var(--dorado))',
-              boxShadow: '0 8px 30px rgba(212,175,140,.3)',
-            }}
-          >
-            Quiero comenzar
-          </Link>
-          <div className="stat-grid">
-            <div className="stat-item">
-              <span className="stat-num">90</span>
-              <span className="stat-label">Días de transformación</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-num">3</span>
-              <span className="stat-label">Pilares del método</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-num">∞</span>
-              <span className="stat-label">Paz como base</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Método en inicio */}
+      {/* ¿Cómo trabajamos juntas? */}
       <section style={{ padding: '120px 0', background: 'var(--crema)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '70px' }} className="reveal">
-            <div className="seccion-label center">El camino</div>
+            <div className="seccion-label center">El proceso</div>
             <h2 className="titulo-seccion" style={{ textAlign: 'center' }}>
-              El método en tres actos
+              ¿Cómo trabajamos juntas?
             </h2>
             <p
               className="texto-cuerpo"
-              style={{ textAlign: 'center', maxWidth: '560px', margin: '0 auto' }}
+              style={{ textAlign: 'center', maxWidth: '520px', margin: '0 auto' }}
             >
-              Recuperas el mando de tu realidad interna — de adentro hacia afuera.
+              Sin formularios eternos, sin compromisos desde el día uno.
+              Empezamos con una conversación.
             </p>
           </div>
           <div className="metodo-home-grid">
             <div className="reveal metodo-card">
               <div className="metodo-num">01</div>
-              <h3>Claridad</h3>
+              <h3>Agenda tu sesión gratis</h3>
               <p>
-                Comprende cómo tu mente construye tu realidad y deja de ser
-                víctima de una &quot;ilusión óptica&quot; emocional.
+                Elige el día y horario que mejor te acomode. Una
+                conversación de 30 minutos, online y sin ningún costo.
+                Solo tú y yo.
               </p>
             </div>
             <div className="reveal metodo-card">
               <div className="metodo-num">02</div>
-              <h3>Soberanía</h3>
+              <h3>Te escucho, sin rodeos</h3>
               <p>
-                Recupera tu poder personal. Tu calma deja de ser negociable y
-                deja de depender de los demás.
+                Platicamos sobre lo que estás viviendo. Entiendo tu
+                situación y te digo con honestidad si creo que puedo
+                ayudarte y cómo.
               </p>
             </div>
             <div className="reveal metodo-card">
               <div className="metodo-num">03</div>
-              <h3>Plenitud</h3>
+              <h3>Avanzamos a tu ritmo</h3>
               <p>
-                Habita un sistema de vida donde la facilidad y el disfrute son la
-                norma, no la excepción.
+                Si hay alineación, te hago una propuesta completamente
+                personalizada — a tu medida, a tu momento, sin programas
+                enlatados.
               </p>
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '60px' }} className="reveal">
-            <Link className="btn-primario" href="/servicios">
-              Ver todos los programas
+            <Link className="btn-primario" href="/contacto">
+              Empezar — primera sesión gratis
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Mini testimonial */}
+      {/* Testimonial */}
       <section style={{ padding: '100px 0', background: 'var(--blanco)' }}>
         <div className="container-sm">
           <div style={{ textAlign: 'center', marginBottom: '50px' }} className="reveal">
-            <div className="seccion-label center">Voces del camino</div>
+            <div className="seccion-label center">Lo que dicen ellas</div>
           </div>
           <div
             style={{
@@ -194,9 +146,9 @@ export default function InicioPage() {
                 lineHeight: '1.65',
               }}
             >
-              Pensé que necesitaba que mi relación cambiara para estar bien. Lo
-              que descubrí fue que la relación siempre fue el espejo — y yo
-              siempre tuve el poder que buscaba afuera.
+              Pensé que necesitaba que mi vida entera cambiara para sentirme
+              bien. Lo que descubrí fue que el cambio siempre empezó conmigo —
+              y que nunca estuve sola en el proceso.
             </blockquote>
             <div
               style={{
@@ -214,7 +166,7 @@ export default function InicioPage() {
                   borderRadius: '50%',
                   background: 'linear-gradient(135deg,var(--mauve-claro),var(--dorado))',
                 }}
-              ></div>
+              />
               <div style={{ textAlign: 'left' }}>
                 <strong
                   style={{ display: 'block', fontSize: '.88rem', color: 'var(--mauve-claro)' }}
@@ -222,7 +174,7 @@ export default function InicioPage() {
                   Directora de Operaciones
                 </strong>
                 <span style={{ fontSize: '.75rem', color: 'rgba(253,240,240,.4)' }}>
-                  CDMX · Programa Soberanía 90 días
+                  CDMX · Proceso de coaching personalizado
                 </span>
               </div>
             </div>
@@ -235,7 +187,7 @@ export default function InicioPage() {
         </div>
       </section>
 
-      {/* CTA final */}
+      {/* CTA Final */}
       <section
         style={{
           padding: '130px 40px',
@@ -248,31 +200,48 @@ export default function InicioPage() {
         <div
           style={{
             position: 'absolute',
-            width: '500px',
-            height: '500px',
+            width: '600px',
+            height: '600px',
             borderRadius: '50%',
             border: '1px solid rgba(201,135,138,.1)',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%,-50%)',
           }}
-        ></div>
+        />
+        <div
+          style={{
+            position: 'absolute',
+            width: '900px',
+            height: '900px',
+            borderRadius: '50%',
+            border: '1px solid rgba(201,135,138,.05)',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%,-50%)',
+          }}
+        />
         <div style={{ position: 'relative', zIndex: 2 }} className="reveal">
           <div className="seccion-label center">Tu siguiente paso</div>
           <h2
             className="titulo-seccion"
             style={{ textAlign: 'center', fontStyle: 'italic' }}
           >
-            ¿Lista para elegir
+            Tu primera sesión
             <br />
-            tu paz?
+            no cuesta nada.
           </h2>
           <p
             className="texto-cuerpo"
-            style={{ textAlign: 'center', maxWidth: '540px', margin: '0 auto 40px' }}
+            style={{
+              textAlign: 'center',
+              maxWidth: '500px',
+              margin: '0 auto 40px',
+              fontSize: '1.1rem',
+            }}
           >
-            Agenda tu sesión exploratoria — sin compromiso, con toda la
-            honestidad.
+            Pero sí puede cambiarlo todo. 30 minutos, online, sin compromiso.
+            Solo tú y yo, hablando de lo que más importa.
           </p>
           <div
             style={{
@@ -283,12 +252,28 @@ export default function InicioPage() {
             }}
           >
             <Link className="btn-primario" href="/contacto">
-              Agendar Sesión de Claridad
+              Agendar ahora — es gratis
             </Link>
-            <Link className="btn-secundario" href="/blog">
-              Leer el blog
-            </Link>
+            <a
+              className="btn-secundario"
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Escribir por WhatsApp
+            </a>
           </div>
+          <p
+            style={{
+              marginTop: '28px',
+              fontSize: '.75rem',
+              letterSpacing: '1.5px',
+              color: 'var(--nude-light)',
+              textTransform: 'uppercase',
+            }}
+          >
+            Sin tarjeta · Sin compromisos · Sin letra chica
+          </p>
         </div>
       </section>
     </div>

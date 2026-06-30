@@ -18,7 +18,7 @@ export default function Footer() {
             <h5>Navegar</h5>
             <ul>
               <li><Link href="/">Inicio</Link></li>
-              <li><Link href="/servicios">Programas</Link></li>
+              <li><Link href="/contacto">Agendar sesión</Link></li>
               <li><Link href="/sobre-mi">Sobre mí</Link></li>
               <li><Link href="/testimonios">Testimonios</Link></li>
             </ul>
