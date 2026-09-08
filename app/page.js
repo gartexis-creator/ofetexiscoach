@@ -232,7 +232,7 @@ export default async function InicioPage() {
             }}
           >
             Precio de clienta fundadora para las primeras 5 · hasta el 30 de
-            septiembre
+            octubre
           </p>
           <div style={{ marginTop: '26px' }}>
             <Link className="btn-secundario" href="/servicios">
