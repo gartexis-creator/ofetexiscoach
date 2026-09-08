@@ -117,13 +117,126 @@ export default async function InicioPage() {
             </div>
             <div className="reveal metodo-card">
               <div className="metodo-num">03</div>
-              <h3>Diseñamos tu proceso</h3>
-              <p>Si avanzamos, armo un plan a tu medida. Nada enlatado.</p>
+              <h3>Empezamos tu proceso</h3>
+              <p>Si hay match, entramos al acompañamiento 1 a 1: de 4 a 6 sesiones, una por semana.</p>
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '54px' }} className="reveal">
             <Link className="btn-primario" href="/contacto">
               Agenda tu sesión gratis
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* El acompañamiento 1 a 1 */}
+      <section className="home-oferta" style={{ padding: '40px 0 20px' }}>
+        <div className="container-sm" style={{ textAlign: 'center' }}>
+          <div className="seccion-label center">Si decides seguir</div>
+          <h2 className="titulo-seccion" style={{ textAlign: 'center' }}>
+            El acompañamiento 1 a 1
+          </h2>
+          <p
+            className="texto-cuerpo"
+            style={{ textAlign: 'center', maxWidth: '520px', margin: '0 auto 34px' }}
+          >
+            Un proceso corto y personal para dejar de esperar a que la otra
+            persona cambie y volver a tu propia paz. De 4 a 6 sesiones, una por
+            semana, con notas de voz entre sesiones y la grabación de cada
+            encuentro.
+          </p>
+          <div
+            style={{
+              display: 'flex',
+              gap: '20px',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            <div
+              style={{
+                flex: '1 1 240px',
+                maxWidth: '300px',
+                background: 'var(--blanco)',
+                border: '1px solid var(--mauve-claro)',
+                borderRadius: '18px',
+                padding: '28px 26px',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '.7rem',
+                  letterSpacing: '2px',
+                  textTransform: 'uppercase',
+                  color: 'var(--mauve)',
+                  fontWeight: 600,
+                }}
+              >
+                Esencial · 4 sesiones
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontSize: '1.9rem',
+                  color: 'var(--ciruela)',
+                  margin: '8px 0 4px',
+                }}
+              >
+                $2,800 MXN
+              </div>
+              <div style={{ fontSize: '.85rem', color: 'var(--nude-light)' }}>
+                Pago por sesión o en un pago
+              </div>
+            </div>
+            <div
+              style={{
+                flex: '1 1 240px',
+                maxWidth: '300px',
+                background: 'linear-gradient(160deg,var(--ciruela-oscuro),#3D2030)',
+                borderRadius: '18px',
+                padding: '28px 26px',
+                color: 'var(--rosa-fondo)',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '.7rem',
+                  letterSpacing: '2px',
+                  textTransform: 'uppercase',
+                  color: 'var(--dorado)',
+                  fontWeight: 600,
+                }}
+              >
+                Completo · 6 sesiones
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontSize: '1.9rem',
+                  color: 'white',
+                  margin: '8px 0 4px',
+                }}
+              >
+                $3,300 MXN
+              </div>
+              <div style={{ fontSize: '.85rem', color: 'rgba(253,240,240,.8)' }}>
+                Pago único · ahorras $900
+              </div>
+            </div>
+          </div>
+          <p
+            style={{
+              fontSize: '.85rem',
+              color: 'var(--nude-light)',
+              marginTop: '20px',
+            }}
+          >
+            Precio de clienta fundadora para las primeras 5 · hasta el 30 de
+            septiembre
+          </p>
+          <div style={{ marginTop: '26px' }}>
+            <Link className="btn-secundario" href="/servicios">
+              Ver el proceso completo
             </Link>
           </div>
         </div>

@@ -5,9 +5,9 @@ import { getProgramas } from '@/lib/content';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Programas & Servicios | Soberanía Relacional',
+  title: 'El acompañamiento 1 a 1 | Soberanía Relacional',
   description:
-    'Cada programa está diseñado para un momento específico de tu camino. Escoge el que resuena con donde estás hoy.',
+    'Un proceso corto y personal, 1 a 1, para dejar de esperar a que el otro cambie y volver a tu propia paz.',
 };
 
 function botonClase(estilo) {
@@ -102,10 +102,12 @@ export default async function ServiciosPage() {
         <div className="seccion-label center" style={{ justifyContent: 'center' }}>
           Lo que ofrezco
         </div>
-        <h2 className="reveal">Programas &amp; Servicios</h2>
+        <h2 className="reveal">El acompañamiento 1 a 1</h2>
         <p className="reveal">
-          Cada programa está diseñado para un momento específico de tu camino.
-          Escoge el que resuena con donde estás hoy.
+          Un proceso corto y personal para dejar de esperar a que la otra
+          persona cambie y volver a tu propia paz. Elige el ritmo que va
+          contigo. Precio de clienta fundadora para las primeras 5, hasta el 30
+          de septiembre.
         </p>
       </section>
 

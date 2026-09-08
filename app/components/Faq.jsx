@@ -4,20 +4,24 @@ import { useState } from 'react';
 
 const FAQS = [
   {
-    q: '¿Cómo sé si este programa es para mí?',
-    a: 'Si te identificas con sentirte sobrepasada emocionalmente aunque tengas todo "en orden" externamente, si eres exigente contigo misma y tu bienestar depende de que todo salga bien — este trabajo es para ti. La sesión exploratoria gratuita es el mejor primer paso para verificarlo.',
+    q: '¿Cómo sé si este proceso es para mí?',
+    a: 'Si estás agotada de esperar a que la otra persona cambie para poder estar tranquila, si reaccionas y luego te sientes mal, o si sientes que tu paz depende de lo que hagan los demás — este trabajo es para ti. La sesión gratuita de 30 minutos es el mejor primer paso para confirmarlo.',
+  },
+  {
+    q: '¿Cuánto cuesta y cómo se paga?',
+    a: 'El proceso Esencial son 4 sesiones ($2,800 MXN), que puedes pagar sesión por sesión o en un solo pago. El proceso Completo son 6 sesiones ($3,300 MXN) con pago único por adelantado. Los detalles los vemos juntas en tu sesión gratuita, sin ningún compromiso.',
   },
   {
     q: '¿Las sesiones son presenciales u online?',
-    a: 'Todas las sesiones son online, lo que me permite acompañarte estés donde estés —en México, Latinoamérica o Estados Unidos—. Los Talleres de Alta Claridad también son en vivo y online.',
+    a: 'Todas las sesiones son online, de 60 minutos, para poder acompañarte estés donde estés —en México, Latinoamérica o Estados Unidos.',
   },
   {
     q: '¿En qué se diferencia esto de la terapia?',
-    a: 'La terapia trabaja desde el pasado hacia el presente. Este mentoring trabaja desde la comprensión de cómo funciona la mente — sin necesidad de procesar el trauma, sino de ver su mecanismo. El resultado es una comprensión que transforma, no una catarsis que hay que repetir.',
+    a: 'La terapia trabaja desde el pasado hacia el presente. Este acompañamiento trabaja desde la comprensión de cómo funciona la mente — sin necesidad de procesar el trauma, sino de ver su mecanismo. El resultado es una comprensión que transforma, no una catarsis que hay que repetir.',
   },
   {
     q: '¿Hay una sesión gratuita antes de comprometerme?',
-    a: 'Sí. Ofrezco una Sesión de Claridad exploratoria de 30 minutos donde conversamos sobre tu situación, lo que estás buscando y si hay una alineación genuina para trabajar juntas. Sin presión, con total honestidad.',
+    a: 'Sí. Es una sesión de 30 minutos donde conversamos sobre tu situación, lo que estás buscando y si tiene sentido trabajar juntas. Sin presión, con total honestidad.',
   },
 ];
 
