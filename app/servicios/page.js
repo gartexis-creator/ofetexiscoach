@@ -106,8 +106,7 @@ export default async function ServiciosPage() {
         <p className="reveal">
           Un proceso corto y personal para dejar de esperar a que la otra
           persona cambie y volver a tu propia paz. Elige el ritmo que va
-          contigo. Precio de clienta fundadora para las primeras 5, hasta el 30
-          de octubre.
+          contigo. Precio de clienta fundadora para las primeras 5 clientas.
         </p>
       </section>
 
