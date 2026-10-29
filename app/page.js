@@ -231,8 +231,7 @@ export default async function InicioPage() {
               marginTop: '20px',
             }}
           >
-            Precio de clienta fundadora para las primeras 5 · hasta el 30 de
-            octubre
+            Precio de clienta fundadora para las primeras 5 clientas
           </p>
           <div style={{ marginTop: '26px' }}>
             <Link className="btn-secundario" href="/servicios">
