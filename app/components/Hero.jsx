@@ -69,14 +69,15 @@ export default function Hero() {
           </span>
 
           <h1 className="animate-fade-up delay-1">
-            <span className="hero-title-word">Coaching de vida</span>
-            <span className="hero-h1-sub">para tu transformación, 1 a 1.</span>
+            <span className="hero-title-word">¿Agotada, ansiosa,</span>
+            <span className="hero-h1-sub">con la mente que no para?</span>
           </h1>
 
           <p className="hero-desc animate-fade-up delay-2">
-            Soy <strong>Ofelia Texis</strong>, coach certificada. Acompaño a
-            mujeres a salir del agotamiento, la ansiedad y el sobrepensamiento
-            con sesiones personales, online y diseñadas a tu medida.
+            Soy <strong>Ofelia Texis</strong>, coach certificada. Te acompaño a
+            soltar el sobrepensamiento y recuperar tu calma —aunque a tu
+            alrededor todavía nada haya cambiado. Coaching 1 a 1 para mujeres,
+            online y a tu medida.
           </p>
 
           <div className="hero-cta-group animate-fade-up delay-3">
