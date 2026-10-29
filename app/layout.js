@@ -22,9 +22,9 @@ const jost = Jost({
 });
 
 export const metadata = {
-  title: 'Soberanía Relacional | Mentoring de Alta Claridad',
+  title: 'Ofelia Texis · Coaching para mujeres | Soberanía Relacional',
   description:
-    'Acompaño a mujeres líderes atrapadas en el sobrepensamiento y la autoexigencia a recuperar calma y claridad para habitar una vida en mayor bienestar — sin depender de que su entorno cambie.',
+    '¿Agotada, ansiosa, con la mente que no para? Coaching 1 a 1 para mujeres, online. Recupera tu calma, aunque a tu alrededor nada haya cambiado. Primera sesión gratis.',
   keywords: [
     'mentoring',
     'soberanía relacional',
@@ -33,9 +33,9 @@ export const metadata = {
     'coaching para mujeres',
   ],
   openGraph: {
-    title: 'Soberanía Relacional | Mentoring de Alta Claridad',
+    title: 'Ofelia Texis · Coaching para mujeres | Soberanía Relacional',
     description:
-      'Mentoring exclusivo para la mujer que elige la paz. Basado en los Tres Principios y la Soberanía Interna.',
+      'La calma que no depende de nadie más. Coaching 1 a 1 para mujeres, basado en los Tres Principios.',
     type: 'website',
     locale: 'es_ES',
   },
