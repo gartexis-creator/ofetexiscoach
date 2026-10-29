@@ -10,8 +10,8 @@ export default function Footer() {
           <div className="footer-logo-sec">
             <div className="footer-logo">Soberanía Relacional</div>
             <p>
-              Mentoring exclusivo para la mujer que elige la paz. Basado en los
-              Tres Principios y la Soberanía Interna.
+              La calma que no depende de nadie más. Coaching 1 a 1 para mujeres,
+              basado en los Tres Principios.
             </p>
           </div>
           <div className="footer-col">
