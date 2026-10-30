@@ -145,93 +145,12 @@ export default async function InicioPage() {
             semana, con notas de voz entre sesiones y la grabación de cada
             encuentro.
           </p>
-          <div
-            style={{
-              display: 'flex',
-              gap: '20px',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div
-              style={{
-                flex: '1 1 240px',
-                maxWidth: '300px',
-                background: 'var(--blanco)',
-                border: '1px solid var(--mauve-claro)',
-                borderRadius: '18px',
-                padding: '28px 26px',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '.7rem',
-                  letterSpacing: '2px',
-                  textTransform: 'uppercase',
-                  color: 'var(--mauve)',
-                  fontWeight: 600,
-                }}
-              >
-                Esencial · 4 sesiones
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--serif)',
-                  fontSize: '1.9rem',
-                  color: 'var(--ciruela)',
-                  margin: '8px 0 4px',
-                }}
-              >
-                $2,800 MXN
-              </div>
-              <div style={{ fontSize: '.85rem', color: 'var(--nude-light)' }}>
-                Pago por sesión o en un pago
-              </div>
-            </div>
-            <div
-              style={{
-                flex: '1 1 240px',
-                maxWidth: '300px',
-                background: 'linear-gradient(160deg,var(--ciruela-oscuro),#3D2030)',
-                borderRadius: '18px',
-                padding: '28px 26px',
-                color: 'var(--rosa-fondo)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '.7rem',
-                  letterSpacing: '2px',
-                  textTransform: 'uppercase',
-                  color: 'var(--dorado)',
-                  fontWeight: 600,
-                }}
-              >
-                Completo · 6 sesiones
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--serif)',
-                  fontSize: '1.9rem',
-                  color: 'white',
-                  margin: '8px 0 4px',
-                }}
-              >
-                $3,300 MXN
-              </div>
-              <div style={{ fontSize: '.85rem', color: 'rgba(253,240,240,.8)' }}>
-                Pago único · ahorras $900
-              </div>
-            </div>
-          </div>
           <p
-            style={{
-              fontSize: '.85rem',
-              color: 'var(--nude-light)',
-              marginTop: '20px',
-            }}
+            className="texto-cuerpo"
+            style={{ textAlign: 'center', maxWidth: '520px', margin: '0 auto' }}
           >
-            Precio de clienta fundadora para las primeras 5 clientas
+            En tu primera sesión, que es gratuita, vemos juntas qué proceso se
+            ajusta a ti y la inversión que mejor te acompaña.
           </p>
           <div style={{ marginTop: '26px' }}>
             <Link className="btn-secundario" href="/servicios">
