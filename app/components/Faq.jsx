@@ -9,7 +9,7 @@ const FAQS = [
   },
   {
     q: '¿Cuánto cuesta y cómo se paga?',
-    a: 'El proceso Esencial son 4 sesiones ($2,800 MXN), que puedes pagar sesión por sesión o en un solo pago. El proceso Completo son 6 sesiones ($3,300 MXN) con pago único por adelantado. Los detalles los vemos juntas en tu sesión gratuita, sin ningún compromiso.',
+    a: 'Trabajamos por procesos personalizados, no por sesión suelta, porque la transformación necesita continuidad. La inversión depende del proceso que mejor se ajuste a ti, y la vemos juntas en tu sesión gratuita de 30 minutos, sin ningún compromiso.',
   },
   {
     q: '¿Las sesiones son presenciales u online?',
