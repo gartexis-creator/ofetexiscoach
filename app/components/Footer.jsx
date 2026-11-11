@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-logo-sec">
-            <div className="footer-logo">Soberanía Relacional</div>
+            <div className="footer-logo">Ofelia Texis</div>
             <p>
               La calma que no depende de nadie más. Coaching 1 a 1 para mujeres,
               basado en los Tres Principios.
