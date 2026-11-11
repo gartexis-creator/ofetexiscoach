@@ -69,14 +69,14 @@ export default function Hero() {
           </span>
 
           <h1 className="animate-fade-up delay-1">
-            <span className="hero-title-word">¿Agotada, ansiosa,</span>
-            <span className="hero-h1-sub">con la mente que no para?</span>
+            <span className="hero-title-word">Recupera tu paz</span>
+            <span className="hero-h1-sub">sin depender de que los demás cambien</span>
           </h1>
 
           <p className="hero-desc animate-fade-up delay-2">
-            Soy <strong>Ofelia Texis</strong>, coach certificada. Te acompaño a
-            soltar el sobrepensamiento y recuperar tu calma —aunque a tu
-            alrededor todavía nada haya cambiado. Coaching 1 a 1 para mujeres,
+            Soy <strong>Ofelia Texis</strong>, coach de relaciones. Acompaño a
+            mujeres a dejar de perder su calma por su pareja o su familia —sin
+            esperar a que nadie más cambie primero. Coaching 1 a 1 para mujeres,
             online y a tu medida.
           </p>
 
