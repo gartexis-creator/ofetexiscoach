@@ -118,7 +118,7 @@ export default async function InicioPage() {
             <div className="reveal metodo-card">
               <div className="metodo-num">03</div>
               <h3>Empezamos tu proceso</h3>
-              <p>Si hay match, entramos al acompañamiento 1 a 1: de 4 a 6 sesiones, una por semana.</p>
+              <p>Si hay match, entramos a tu programa de 12 semanas: coaching 1 a 1, una sesión por semana.</p>
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '54px' }} className="reveal">
@@ -140,10 +140,11 @@ export default async function InicioPage() {
             className="texto-cuerpo"
             style={{ textAlign: 'center', maxWidth: '520px', margin: '0 auto 34px' }}
           >
-            Un proceso corto y personal para dejar de esperar a que la otra
-            persona cambie y volver a tu propia paz. De 4 a 6 sesiones, una por
-            semana, con notas de voz entre sesiones y la grabación de cada
-            encuentro.
+            Un proceso de 12 semanas, en tres fases, para dejar de esperar a que
+            la otra persona cambie y volver a tu propia paz: comprendes de dónde
+            nace tu malestar, te sueltas del peso de los demás y recuperas tu
+            calma. Incluye una sesión de coaching 1 a 1 por semana, notas de voz
+            entre sesiones y la grabación de cada encuentro.
           </p>
           <p
             className="texto-cuerpo"
